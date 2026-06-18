@@ -1,0 +1,22 @@
+{
+  "eventType": "run_created",
+  "runId": "wrun_01KVD25MMW9ABH0J36XWWTYSH5",
+  "eventId": "evnt_01KVD25MN4H85HFNAH390TGGAV",
+  "createdAt": "2026-06-18T09:49:35.779Z",
+  "specVersion": 4,
+  "eventData": {
+    "deploymentId": "dpl_local@bundled",
+    "workflowName": "workflow//eve//workflowEntry",
+    "input": {
+      "__type": "Uint8Array",
+      "data": "ZGV2bFtbMV0seyJpbnB1dCI6Miwic2VyaWFsaXplZENvbnRleHQiOjR9LHsibWVzc2FnZSI6M30sIlJ1biB0aGUgZGFpbHkgUFIgJiBDSSBkaWdlc3Qgbm93OiBmb2xsb3cgeW91ciBpbnN0cnVjdGlvbnMgdG8gcmVhZCBtZW1vcnksIGdhdGhlciBjb250cmlidXRpb25zL1BScy9DSSwgY29tcG9zZSB0aGUgZGlnZXN0LCBwb3N0IGl0IHRvIFNsYWNrLCBhbmQgdXBkYXRlIG1lbW9yeS4iLHsiZXZlLmJ1bmRsZSI6NSwiZXZlLmNoYW5uZWwiOjExLCJldmUuY2hhbm5lbEluc3RydW1lbnRhdGlvbiI6MTQsImV2ZS5jb250aW51YXRpb25Ub2tlbiI6MTYsImV2ZS5tb2RlIjoxNywiZXZlLmF1dGgiOjE4LCJldmUuaW5pdGlhdG9yQXV0aCI6MTh9LHsibm9kZUlkIjotMSwic291cmNlIjo2fSx7ImFwcFJvb3QiOjcsImtpbmQiOjgsIm1vZHVsZU1hcExvYWRlclBhdGgiOjksInNhbmRib3hBcHBSb290IjoxMH0sIi9Vc2Vycy92aXJlL2NvZGUvZ2l0aHViL2V2ZS1hZ2VudC8uZXZlL2Rldi1ydW50aW1lL3NuYXBzaG90cy9tcWpiajJ1Ny1jYjExNjYwMi1hM2NlLTQ4ZmYtYWY0NC1iZmM1MzdjMGQ5NDMvc291cmNlIiwiZGlzayIsIi9Vc2Vycy92aXJlL2NvZGUvZ2l0aHViL2V2ZS1hZ2VudC9ub2RlX21vZHVsZXMvLnBucG0vZXZlQDAuMTEuNF9haUA3LjAuMC1iZXRhLjE3OF96b2RANC40LjNfX3ZpdGVAOC4wLjE2L25vZGVfbW9kdWxlcy9ldmUvZGlzdC9zcmMvaW50ZXJuYWwvYXV0aG9yZWQtbW9kdWxlLW1hcC1sb2FkZXIuanMiLCIvVXNlcnMvdmlyZS9jb2RlL2dpdGh1Yi9ldmUtYWdlbnQiLHsia2luZCI6MTIsInN0YXRlIjoxM30sInNjaGVkdWxlIix7fSx7ImtpbmQiOjEyLCJtZXRhZGF0YSI6MTV9LHt9LCIiLCJ0YXNrIix7ImF0dHJpYnV0ZXMiOjE5LCJhdXRoZW50aWNhdG9yIjoyMCwicHJpbmNpcGFsSWQiOjIxLCJwcmluY2lwYWxUeXBlIjoyMn0se30sImFwcCIsImV2ZTphcHAiLCJydW50aW1lIl0="
+    },
+    "executionContext": {
+      "traceCarrier": {},
+      "workflowCoreVersion": "5.0.0-beta.17",
+      "features": {
+        "encryption": false
+      }
+    }
+  }
+}

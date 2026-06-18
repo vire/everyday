@@ -1,0 +1,12 @@
+{
+  "eventType": "hook_conflict",
+  "correlationId": "hook_01KVD25MN32CA7SQKSA3JJ8HYT",
+  "eventData": {
+    "token": "",
+    "conflictingRunId": "wrun_01KVCYAXT4862DGEAAJWAS43J4"
+  },
+  "runId": "wrun_01KVD25MMW9ABH0J36XWWTYSH5",
+  "eventId": "evnt_01KVD25MP2JPW3RG2JJ0271QXN",
+  "createdAt": "2026-06-18T09:49:35.810Z",
+  "specVersion": 4
+}

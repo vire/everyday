@@ -1,0 +1,41 @@
+{
+  "eventType": "attr_set",
+  "specVersion": 4,
+  "eventData": {
+    "changes": [
+      {
+        "key": "$eve.model",
+        "value": "openrouter/openai/gpt-5-codex"
+      },
+      {
+        "key": "$eve.input_tokens",
+        "value": "40837"
+      },
+      {
+        "key": "$eve.output_tokens",
+        "value": "3422"
+      },
+      {
+        "key": "$eve.cache_read_tokens",
+        "value": "0"
+      },
+      {
+        "key": "$eve.cache_write_tokens",
+        "value": "0"
+      },
+      {
+        "key": "$eve.tool_count",
+        "value": "17"
+      }
+    ],
+    "writer": {
+      "type": "step",
+      "stepId": "step_01KVCZY8ECX1XQK8P4ZFYJ6MTJ",
+      "attempt": 1
+    },
+    "allowReservedAttributes": true
+  },
+  "runId": "wrun_01KVCZY8EA0NYKN0M6HBDT8AB1",
+  "eventId": "evnt_01KVD1S4XAR4SJJQC6SQA62KA8",
+  "createdAt": "2026-06-18T09:42:46.442Z"
+}

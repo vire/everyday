@@ -1,7 +1,7 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
-import { ghJson, targetRepo } from "../../lib/gh";
-import { aggregateCiHealth, type RawRun, type RawJob } from "../../lib/ci-health";
+import { ghJson, targetRepo } from "../lib/gh.ts";
+import { aggregateCiHealth, type RawRun, type RawJob } from "../lib/ci-health.ts";
 
 interface ApiRun {
   databaseId: number;

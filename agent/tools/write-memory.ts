@@ -1,7 +1,7 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
-import { gh } from "../../lib/gh";
-import { MEMORY_FILENAME } from "../../lib/memory";
+import { gh } from "../lib/gh.ts";
+import { MEMORY_FILENAME } from "../lib/memory.ts";
 import { writeFile, mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";

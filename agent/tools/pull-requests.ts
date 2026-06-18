@@ -1,7 +1,7 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
-import { ghJson, targetRepo } from "../../lib/gh";
-import { groupPullRequests, type RawPR } from "../../lib/pull-requests";
+import { ghJson, targetRepo } from "../lib/gh.ts";
+import { groupPullRequests, type RawPR } from "../lib/pull-requests.ts";
 
 interface ApiPR {
   number: number;

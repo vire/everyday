@@ -1,0 +1,20 @@
+{
+  "runId": "wrun_01KVCXWK8VJQWRD7TS3W51HFXZ",
+  "stepId": "step_01KVCXWK91K6DAA143HSDBB9Q9",
+  "stepName": "step//eve@0.11.4//notifyDelegatedParentStep",
+  "status": "completed",
+  "input": {
+    "__type": "Uint8Array",
+    "data": "ZGV2bFt7ImFyZ3MiOjEsImNsb3N1cmVWYXJzIjotMSwidGhpc1ZhbCI6LTF9LFsyXSx7InJlc3VsdCI6LTEsInNlcmlhbGl6ZWRDb250ZXh0IjozfSx7ImV2ZS5idW5kbGUiOjQsImV2ZS5jaGFubmVsIjoxMCwiZXZlLmNoYW5uZWxJbnN0cnVtZW50YXRpb24iOjEzLCJldmUuY29udGludWF0aW9uVG9rZW4iOjE1LCJldmUubW9kZSI6MTYsImV2ZS5hdXRoIjoxNywiZXZlLmluaXRpYXRvckF1dGgiOjE3LCJldmUuc2Vzc2lvbklkIjoyMn0seyJub2RlSWQiOi0xLCJzb3VyY2UiOjV9LHsiYXBwUm9vdCI6Niwia2luZCI6NywibW9kdWxlTWFwTG9hZGVyUGF0aCI6OCwic2FuZGJveEFwcFJvb3QiOjl9LCIvVXNlcnMvdmlyZS9jb2RlL2dpdGh1Yi9ldmUtYWdlbnQvLmV2ZS9kZXYtcnVudGltZS9zbmFwc2hvdHMvbXFqOHV0d2ktNzI3OGExNjAtZmJjOS00NjJkLWEzMjMtNmRhMTQ5MmNiOWYxL3NvdXJjZSIsImRpc2siLCIvVXNlcnMvdmlyZS9jb2RlL2dpdGh1Yi9ldmUtYWdlbnQvbm9kZV9tb2R1bGVzLy5wbnBtL2V2ZUAwLjExLjRfYWlANy4wLjAtYmV0YS4xNzhfem9kQDQuNC4zX192aXRlQDguMC4xNi9ub2RlX21vZHVsZXMvZXZlL2Rpc3Qvc3JjL2ludGVybmFsL2F1dGhvcmVkLW1vZHVsZS1tYXAtbG9hZGVyLmpzIiwiL1VzZXJzL3ZpcmUvY29kZS9naXRodWIvZXZlLWFnZW50Iix7ImtpbmQiOjExLCJzdGF0ZSI6MTJ9LCJzY2hlZHVsZSIse30seyJraW5kIjoxMSwibWV0YWRhdGEiOjE0fSx7fSwiIiwidGFzayIseyJhdHRyaWJ1dGVzIjoxOCwiYXV0aGVudGljYXRvciI6MTksInByaW5jaXBhbElkIjoyMCwicHJpbmNpcGFsVHlwZSI6MjF9LHt9LCJhcHAiLCJldmU6YXBwIiwicnVudGltZSIsIndydW5fMDFLVkNYV0s4VkpRV1JEN1RTM1c1MUhGWFoiXQ=="
+  },
+  "attempt": 1,
+  "startedAt": "2026-06-18T08:34:48.448Z",
+  "createdAt": "2026-06-18T08:34:48.446Z",
+  "updatedAt": "2026-06-18T08:34:48.449Z",
+  "specVersion": 4,
+  "output": {
+    "__type": "Uint8Array",
+    "data": "ZGV2bC0x"
+  },
+  "completedAt": "2026-06-18T08:34:48.449Z"
+}

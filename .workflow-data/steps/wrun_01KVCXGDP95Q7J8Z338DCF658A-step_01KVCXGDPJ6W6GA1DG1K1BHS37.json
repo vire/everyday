@@ -1,0 +1,20 @@
+{
+  "runId": "wrun_01KVCXGDP95Q7J8Z338DCF658A",
+  "stepId": "step_01KVCXGDPJ6W6GA1DG1K1BHS37",
+  "stepName": "step//eve@0.11.4//notifyDelegatedParentStep",
+  "status": "completed",
+  "input": {
+    "__type": "Uint8Array",
+    "data": "ZGV2bFt7ImFyZ3MiOjEsImNsb3N1cmVWYXJzIjotMSwidGhpc1ZhbCI6LTF9LFsyXSx7InJlc3VsdCI6LTEsInNlcmlhbGl6ZWRDb250ZXh0IjozfSx7ImV2ZS5idW5kbGUiOjQsImV2ZS5jaGFubmVsIjoxMCwiZXZlLmNoYW5uZWxJbnN0cnVtZW50YXRpb24iOjEzLCJldmUuY29udGludWF0aW9uVG9rZW4iOjE2LCJldmUubW9kZSI6MTcsImV2ZS5hdXRoIjoxOCwiZXZlLmluaXRpYXRvckF1dGgiOjE4LCJldmUuY2FwYWJpbGl0aWVzIjoyMSwiZXZlLnNlc3Npb25JZCI6MjN9LHsibm9kZUlkIjotMSwic291cmNlIjo1fSx7ImFwcFJvb3QiOjYsImtpbmQiOjcsIm1vZHVsZU1hcExvYWRlclBhdGgiOjgsInNhbmRib3hBcHBSb290Ijo5fSwiL1VzZXJzL3ZpcmUvY29kZS9naXRodWIvZXZlLWFnZW50Ly5ldmUvZGV2LXJ1bnRpbWUvc25hcHNob3RzL21xajhrenJ3LWIyOTUwODFjLTRmMzMtNDJhMS04N2VmLTEwZmRlNWUxZDBiMy9zb3VyY2UiLCJkaXNrIiwiL1VzZXJzL3ZpcmUvY29kZS9naXRodWIvZXZlLWFnZW50L25vZGVfbW9kdWxlcy8ucG5wbS9ldmVAMC4xMS40X2FpQDcuMC4wLWJldGEuMTc4X3pvZEA0LjQuM19fdml0ZUA4LjAuMTYvbm9kZV9tb2R1bGVzL2V2ZS9kaXN0L3NyYy9pbnRlcm5hbC9hdXRob3JlZC1tb2R1bGUtbWFwLWxvYWRlci5qcyIsIi9Vc2Vycy92aXJlL2NvZGUvZ2l0aHViL2V2ZS1hZ2VudCIseyJraW5kIjoxMSwic3RhdGUiOjEyfSwiaHR0cCIse30seyJraW5kIjoxNCwibWV0YWRhdGEiOjE1fSwiY2hhbm5lbDpldmUiLHt9LCJldmU6ZXZlOmM3MWY4NmRkLTViZTktNGQxNy04ZDg0LTFmMmFmZWU0M2E1YiIsImNvbnZlcnNhdGlvbiIseyJhdHRyaWJ1dGVzIjoxOSwiYXV0aGVudGljYXRvciI6MjAsInByaW5jaXBhbElkIjoyMCwicHJpbmNpcGFsVHlwZSI6MjB9LHt9LCJsb2NhbC1kZXYiLHsicmVxdWVzdElucHV0IjoyMn0sdHJ1ZSwid3J1bl8wMUtWQ1hHRFA5NVE3SjhaMzM4RENGNjU4QSJd"
+  },
+  "attempt": 1,
+  "startedAt": "2026-06-18T08:28:09.564Z",
+  "createdAt": "2026-06-18T08:28:09.562Z",
+  "updatedAt": "2026-06-18T08:28:09.565Z",
+  "specVersion": 4,
+  "output": {
+    "__type": "Uint8Array",
+    "data": "ZGV2bC0x"
+  },
+  "completedAt": "2026-06-18T08:28:09.565Z"
+}

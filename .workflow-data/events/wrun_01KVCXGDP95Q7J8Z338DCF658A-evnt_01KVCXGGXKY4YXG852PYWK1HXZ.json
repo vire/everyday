@@ -1,0 +1,11 @@
+{
+  "eventType": "step_started",
+  "specVersion": 4,
+  "correlationId": "step_01KVCXGDPJ6W6GA1DG1K1BHS35",
+  "eventData": {
+    "stepName": "step//eve@0.11.4//emitTerminalSessionFailureStep"
+  },
+  "runId": "wrun_01KVCXGDP95Q7J8Z338DCF658A",
+  "eventId": "evnt_01KVCXGGXKY4YXG852PYWK1HXZ",
+  "createdAt": "2026-06-18T08:28:09.523Z"
+}

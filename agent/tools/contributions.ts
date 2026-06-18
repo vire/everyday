@@ -1,7 +1,7 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
-import { ghJson, resolveMe, targetRepo } from "../../lib/gh";
-import { summarizeContributions, DEFAULT_AGENT_MARKERS, type RawCommit } from "../../lib/contributions";
+import { ghJson, resolveMe, targetRepo } from "../lib/gh.ts";
+import { summarizeContributions, DEFAULT_AGENT_MARKERS, type RawCommit } from "../lib/contributions.ts";
 
 interface ApiCommit {
   sha: string;

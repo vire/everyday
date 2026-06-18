@@ -1,0 +1,43 @@
+import { defineTool } from "eve/tools";
+import { z } from "zod";
+import { gh, ghJson, targetRepo } from "../../lib/gh";
+import { findMemoryGist, initialMemory, memoryGistDescription, MEMORY_FILENAME } from "../../lib/memory";
+import { writeFile, mkdtemp } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+
+export default defineTool({
+  description: "Read the agent's persistent memory (private gist); creates it if missing.",
+  inputSchema: z.object({}),
+  async execute() {
+    const repo = targetRepo();
+    if (!repo) return { ok: false as const, reason: "TARGET_REPO env is required (owner/name)" };
+
+    // gh gist list --json is not supported; use gh api gists instead.
+    // --paginate without --jq returns one merged JSON array; --jq emits one array per page (NDJSON).
+    const list = await ghJson<{ id: string; description: string }[]>([
+      "api", "gists", "--paginate",
+    ]);
+    if (!list.ok) return list;
+    let gistId = findMemoryGist(list.data, repo);
+
+    if (!gistId) {
+      // execFile cannot pipe stdin, so write a temp file for gist create
+      const dir = await mkdtemp(join(tmpdir(), "eve-mem-"));
+      const path = join(dir, MEMORY_FILENAME);
+      await writeFile(path, initialMemory(repo), "utf8");
+      const created = await gh([
+        "gist", "create", "--desc", memoryGistDescription(repo), path,
+      ]);
+      if (!created.ok) return created;
+      const url = created.stdout.trim();
+      gistId = url.split("/").pop() ?? null;
+      if (!gistId) return { ok: false as const, reason: `Could not parse gist ID from: ${url}` };
+      return { ok: true as const, gistId, content: initialMemory(repo), created: true };
+    }
+
+    const view = await gh(["gist", "view", gistId, "--filename", MEMORY_FILENAME, "--raw"]);
+    if (!view.ok) return view;
+    return { ok: true as const, gistId, content: view.stdout, created: false };
+  },
+});

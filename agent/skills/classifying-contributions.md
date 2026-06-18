@@ -2,12 +2,14 @@
 
 The `contributions` tool pre-classifies commits into four buckets. Use these definitions to describe them accurately in the digest:
 
-| Bucket | Meaning |
+| Bucket (field name) | Meaning |
 |---|---|
-| `me` | Commits authored by the GitHub-authenticated user (`GITHUB_LOGIN` or the result of `gh api user`) with no AI co-author trailer. |
+| `humanMe` | Commits authored by the GitHub-authenticated user (`GITHUB_LOGIN` or the result of `gh api user`) with no AI co-author trailer. |
 | `meAiAssist` | Commits authored by the same user that include a `Co-authored-by:` trailer whose name/email matches a known AI assistant: Claude, Cursor, Copilot, Devin, or an `@anthropic.com` address. |
 | `agent` | Commits whose author login ends with `[bot]` (e.g. `dependabot[bot]`, `github-actions[bot]`). |
 | `other` | All other commits — human contributors who are not the authenticated user. |
+
+These field names are the exact keys returned under `summary` by the `contributions` tool (e.g. `result.summary.humanMe`). The tool also returns a top-level `me` field which is the authenticated user's GitHub **login string** — it is not a bucket count.
 
 ## How to describe them in the digest
 

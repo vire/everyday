@@ -4,6 +4,8 @@
 **Status:** Approved (brainstorming) → ready for implementation plan
 **Framework:** [Eve](https://vercel.com/eve) — Vercel's open-source agent framework
 
+> **Implementation note (supersedes parts of this spec):** the model uses OpenRouter via an external AI SDK provider (not the Vercel AI Gateway); scheduling uses a NATIVE Eve schedule run under `eve start` (not an external system cron); Slack delivery uses a custom bot-token tool (not Vercel Connect). See `docs/superpowers/notes/running-in-production.md` and `README.md`.
+
 ## Overview
 
 A single Eve agent that produces a **daily digest** about one GitHub repository and

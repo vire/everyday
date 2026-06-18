@@ -11,7 +11,9 @@ import { defineEval } from "eve/evals";
  *
  * Assertions:
  *   1. The schedule dispatches and produces exactly one session.
- *   2. The agent calls all six tools in the required order.
+ *   2. `read-memory` is called first; all three data tools are called (any order/parallel);
+ *      `write-memory` is called; `post-to-slack` is attempted.
+ *      (strict total-order is not asserted — the data tools may run in parallel)
  *   3. The final message includes the four contribution buckets.
  *   4. The final message includes the five PR review-state labels.
  *   5. The final message includes at least one CI workflow line.
@@ -39,15 +41,17 @@ export default defineEval({
     // 1. Session completed without a terminal failure.
     t.completed();
 
-    // 2. All six tools must have been called, in the correct protocol order.
-    t.toolOrder([
-      "read-memory",
-      "contributions",
-      "pull-requests",
-      "ci-health",
-      "post-to-slack",
-      "write-memory",
-    ]);
+    // 2. Tool call membership and partial-order assertions:
+    //    - read-memory must be called first (it loads the gist ID needed by write-memory).
+    //    - The three data tools may run in any order or in parallel.
+    //    - write-memory must be called (memory is always written, even if Slack fails).
+    //    - post-to-slack must be attempted (it may return ok:false without failing the run).
+    t.toolCalledFirst("read-memory");
+    t.toolCalled("contributions");
+    t.toolCalled("pull-requests");
+    t.toolCalled("ci-health");
+    t.toolCalled("write-memory");
+    t.toolCalled("post-to-slack");
 
     // 3. Digest contains the four contribution buckets (or a data-unavailable note).
     t.messageIncludes(/You:|data unavailable/i);

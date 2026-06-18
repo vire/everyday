@@ -7,7 +7,7 @@ Post a single Slack message with this structure:
 *PR & CI Digest — `<owner/repo>` — `<YYYY-MM-DD>`*
 
 *Contributions (last 24h)*
-- You: `<me>` · You + AI: `<meAiAssist>` · Agents/bots: `<agent>` · Others: `<other>`
+- You: `<summary.humanMe>` · You + AI: `<summary.meAiAssist>` · Agents/bots: `<summary.agent>` · Others: `<summary.other>`
 
 *Open PRs*
 - ✅ Approved: `<n>` · ✋ Changes requested: `<n>` · 💬 Reviewed: `<n>` · ⏳ Pending review: `<n>` · 📝 Draft: `<n>`
@@ -28,4 +28,5 @@ Post a single Slack message with this structure:
 - Omit empty subsections (e.g. no "Open PRs" block if there are none), except always show the one-line summary at the top.
 - If `failedJobFetches` > 0, append a footnote: "_Note: `<n>` CI job fetch(es) failed — job-level data may be incomplete._"
 - If the `contributions` tool returned `{ ok: false }`, show "data unavailable — `<reason>`" in place of the contributions block.
+- The `contributions` tool returns `{ ok, me, summary: { total, humanMe, meAiAssist, agent, other } }`. The counts live under the nested `summary` object. The top-level `me` field is your GitHub login **string** (e.g. `"octocat"`) — it is NOT a count and must never be rendered as a number in the contributions line.
 - Same pattern for `pull-requests` and `ci-health` failures.

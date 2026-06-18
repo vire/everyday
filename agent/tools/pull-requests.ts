@@ -6,7 +6,7 @@ import { groupPullRequests, type RawPR } from "../../lib/pull-requests";
 interface ApiPR {
   number: number;
   title: string;
-  author: { login: string };
+  author: { login: string } | null;
   reviewDecision: string | null;
   isDraft: boolean;
   reviews: { id: string }[];
@@ -28,7 +28,7 @@ export default defineTool({
     const prs: RawPR[] = res.data.map((p) => ({
       number: p.number,
       title: p.title,
-      authorLogin: p.author.login,
+      authorLogin: p.author?.login ?? "ghost",
       reviewDecision: p.reviewDecision,
       isDraft: p.isDraft,
       reviewCount: p.reviews.length,

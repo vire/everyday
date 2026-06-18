@@ -85,7 +85,7 @@ cp .env.example .env
 | `GITHUB_LOGIN` | No | Your GitHub login for contribution attribution; defaults to `gh api user` |
 | `GH_TOKEN` | Yes | Personal Access Token with `repo` + `gist` scopes |
 | `OPENROUTER_API_KEY` | Yes | OpenRouter key (`sk-or-...`) |
-| `OPENROUTER_MODEL` | Yes | Any valid OpenRouter model slug (default: `openai/gpt-5-codex`). **Confirm the slug exists in your OpenRouter catalog** — model availability varies by plan. Safe alternatives: `anthropic/claude-opus-4`, `openai/gpt-4o`. |
+| `OPENROUTER_MODEL` | Yes | Any valid OpenRouter model slug (default: `openai/gpt-5-nano`). **Avoid `*-codex` slugs** — they enforce strict function-call schemas and reject this agent's tool definitions. **Confirm the slug exists in your OpenRouter catalog.** Alternatives: `openai/gpt-5-mini`, `openai/gpt-5.2`. |
 | `SLACK_BOT_TOKEN` | Yes | Slack bot token (`xoxb-...`) with `chat:write` scope |
 | `SLACK_CHANNEL_ID` | Yes | Target Slack channel ID (`C0XXXXXXX`) |
 

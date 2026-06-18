@@ -5,7 +5,7 @@
 #   GH_TOKEN           GitHub PAT, scopes: repo + gist  (gh CLI authenticates from this)
 #   GITHUB_LOGIN       optional; defaults to the gh-authenticated user
 #   OPENROUTER_API_KEY OpenRouter key
-#   OPENROUTER_MODEL   model slug (default openai/gpt-5-mini; codex slugs reject our tool schemas)
+#   OPENROUTER_MODEL   model slug (default openai/gpt-5-nano; codex slugs reject our tool schemas)
 #   SLACK_BOT_TOKEN    Slack bot token (xoxb-...)
 #   SLACK_CHANNEL_ID   target channel id (e.g. C09HDQ4K1TQ); bot must be invited to it
 #   MEMORY_GIST_ID     optional; the private gist holding memory.md
@@ -25,7 +25,7 @@ services:
       GITHUB_LOGIN: ${GITHUB_LOGIN:-}
       GH_TOKEN: ${GH_TOKEN}
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
-      OPENROUTER_MODEL: ${OPENROUTER_MODEL:-openai/gpt-5-mini}
+      OPENROUTER_MODEL: ${OPENROUTER_MODEL:-openai/gpt-5-nano}
       SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
       SLACK_CHANNEL_ID: ${SLACK_CHANNEL_ID}
       MEMORY_GIST_ID: ${MEMORY_GIST_ID:-}

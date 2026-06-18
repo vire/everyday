@@ -12,7 +12,8 @@ const openrouter = createOpenAICompatible({
 export default defineAgent({
   // Pass the LanguageModel directly so Eve uses it as an external model,
   // bypassing the Vercel AI Gateway catalog lookup.
-  model: openrouter(process.env.OPENROUTER_MODEL ?? "openai/gpt-5-codex"),
+  // Avoid *-codex slugs: they enforce strict tool schemas and reject our tools.
+  model: openrouter(process.env.OPENROUTER_MODEL ?? "openai/gpt-5-nano"),
   // Gateway catalog lookup is skipped for external models; set context window manually.
   modelContextWindowTokens: 128000,
   // Task-mode (schedule) completion contract: a structured final output tells

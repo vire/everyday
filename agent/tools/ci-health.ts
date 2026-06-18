@@ -21,8 +21,9 @@ export default defineTool({
   inputSchema: z.object({ limit: z.number().default(30).describe("how many recent runs to inspect") }),
   async execute({ limit }) {
     const repo = targetRepo();
+    if (!repo) return { ok: false as const, reason: "TARGET_REPO env is required (owner/name)" };
     const runsRes = await ghJson<ApiRun[]>([
-      "run", "list", "--repo", repo, "--limit", String(limit),
+      "run", "list", "--repo", repo, "--limit", String(limit), "--status", "completed",
       "--json", "databaseId,workflowName,conclusion,createdAt,updatedAt,headSha",
     ]);
     if (!runsRes.ok) return runsRes;
@@ -36,10 +37,16 @@ export default defineTool({
     }));
 
     const jobsByRunId: Record<number, RawJob[]> = {};
+    let failedJobFetches = 0;
     for (const run of runs) {
       const jv = await ghJson<ApiJobsView>(["run", "view", String(run.id), "--repo", repo, "--json", "jobs"]);
-      jobsByRunId[run.id] = jv.ok ? jv.data.jobs : [];
+      if (jv.ok) {
+        jobsByRunId[run.id] = jv.data.jobs;
+      } else {
+        failedJobFetches += 1;
+        jobsByRunId[run.id] = [];
+      }
     }
-    return { ok: true as const, report: aggregateCiHealth(runs, jobsByRunId) };
+    return { ok: true as const, report: aggregateCiHealth(runs, jobsByRunId), failedJobFetches };
   },
 });

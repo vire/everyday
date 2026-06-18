@@ -30,14 +30,13 @@ export async function ghJson<T>(args: string[]): Promise<Result<T>> {
   return parseJsonOutput<T>(r.stdout);
 }
 
-export async function resolveMe(): Promise<string> {
-  if (process.env.GITHUB_LOGIN) return process.env.GITHUB_LOGIN;
+export async function resolveMe(): Promise<Result<string>> {
+  if (process.env.GITHUB_LOGIN) return { ok: true, data: process.env.GITHUB_LOGIN };
   const r = await gh(["api", "user", "--jq", ".login"]);
-  return r.ok ? r.stdout.trim() : "";
+  if (!r.ok) return r;
+  return { ok: true, data: r.stdout.trim() };
 }
 
-export function targetRepo(): string {
-  const repo = process.env.TARGET_REPO;
-  if (!repo) throw new Error("TARGET_REPO env is required (owner/name)");
-  return repo;
+export function targetRepo(): string | null {
+  return process.env.TARGET_REPO ?? null;
 }

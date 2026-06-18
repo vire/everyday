@@ -15,7 +15,10 @@ export default defineTool({
   inputSchema: z.object({ sinceISO: z.string().describe("ISO timestamp; commits after this") }),
   async execute({ sinceISO }) {
     const repo = targetRepo();
-    const me = await resolveMe();
+    if (!repo) return { ok: false as const, reason: "TARGET_REPO env is required (owner/name)" };
+    const meRes = await resolveMe();
+    if (!meRes.ok) return meRes;
+    const me = meRes.data;
     const res = await ghJson<ApiCommit[]>([
       "api", "--paginate", `repos/${repo}/commits?since=${encodeURIComponent(sinceISO)}`,
     ]);

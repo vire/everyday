@@ -19,6 +19,7 @@ export default defineTool({
   inputSchema: z.object({}),
   async execute() {
     const repo = targetRepo();
+    if (!repo) return { ok: false as const, reason: "TARGET_REPO env is required (owner/name)" };
     const res = await ghJson<ApiPR[]>([
       "pr", "list", "--repo", repo, "--state", "open", "--limit", "100",
       "--json", "number,title,author,reviewDecision,isDraft,reviews,updatedAt,url",

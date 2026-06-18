@@ -2,3 +2,4 @@ node_modules/
 .eve/
 .output/
 .env
+.workflow-data/

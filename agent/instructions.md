@@ -10,7 +10,7 @@ You produce one daily digest about the repository in `TARGET_REPO` and post it t
 4. Call `ci-health` to get workflow pass rates, durations, and job-level details. Note `failedJobFetches` — if it is greater than 0, include a footnote in the digest that some CI job data could not be fetched.
 5. Compose the digest using the `digest-format` skill. Compare CI pass rates and p50 durations against the "CI baselines" stored in memory and call out any regressions (pass rate dropped) or newly-flaky workflows (not previously flagged).
 6. Apply the `repo-improvement-playbook` skill to propose at most 3 concrete improvements. Reconcile against the "Open improvement suggestions" already in memory: do not repeat a suggestion already marked resolved; if a suggestion is recurring, update its status instead of duplicating it.
-7. Post the composed digest text to Slack.
+7. Call the `post-to-slack` tool with `{ text: <the composed digest> }`. If it returns `{ ok: false }`, note the failure reason in your session log but do not abort — proceed to step 8 (memory still gets written).
 8. Call `write-memory` with the same `gistId` from step 1 and an updated memory document containing:
    - **CI baselines**: refreshed p50 duration and pass rate per workflow from the latest `ci-health` result.
    - **Open improvement suggestions**: the current suggestion list with status updates applied in step 6.

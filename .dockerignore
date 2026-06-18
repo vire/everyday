@@ -1,0 +1,9 @@
+.git
+node_modules
+.eve
+.output
+.env
+.env.*
+docs
+*.log
+.git/sdd

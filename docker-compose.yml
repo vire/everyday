@@ -1,0 +1,72 @@
+# Coolify deployment: the eve agent in production mode + a 12h trigger.
+#
+# Set these env vars in Coolify (do NOT commit real secrets):
+#   TARGET_REPO        owner/name of the repo to digest
+#   GH_TOKEN           GitHub PAT, scopes: repo + gist  (gh CLI authenticates from this)
+#   GITHUB_LOGIN       optional; defaults to the gh-authenticated user
+#   OPENROUTER_API_KEY OpenRouter key
+#   OPENROUTER_MODEL   model slug (default openai/gpt-5-mini; codex slugs reject our tool schemas)
+#   SLACK_BOT_TOKEN    Slack bot token (xoxb-...)
+#   SLACK_CHANNEL_ID   target channel id (e.g. C09HDQ4K1TQ); bot must be invited to it
+#   MEMORY_GIST_ID     optional; the private gist holding memory.md
+#   DIGEST_INTERVAL    optional; seconds between runs (default 43200 = 12h)
+#   AGENT_BASIC_USER   trigger auth username (cron sends it). If unset, the
+#   AGENT_BASIC_PASS   session endpoint is OPEN — only safe if port 3000 is not
+#                      published publicly. Set both to require HTTP Basic.
+
+services:
+  agent:
+    build: .
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      TARGET_REPO: ${TARGET_REPO}
+      GITHUB_LOGIN: ${GITHUB_LOGIN:-}
+      GH_TOKEN: ${GH_TOKEN}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      OPENROUTER_MODEL: ${OPENROUTER_MODEL:-openai/gpt-5-mini}
+      SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
+      SLACK_CHANNEL_ID: ${SLACK_CHANNEL_ID}
+      MEMORY_GIST_ID: ${MEMORY_GIST_ID:-}
+      AGENT_BASIC_USER: ${AGENT_BASIC_USER:-}
+      AGENT_BASIC_PASS: ${AGENT_BASIC_PASS:-}
+    expose:
+      - "3000"
+    healthcheck:
+      # any HTTP response on :3000 means the server is up (root may 404 — that's fine)
+      test: ["CMD-SHELL", "curl -s -o /dev/null http://localhost:3000/ || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+      start_period: 40s
+
+  digest-cron:
+    image: alpine:3.20
+    restart: unless-stopped
+    depends_on:
+      agent:
+        condition: service_healthy
+    environment:
+      DIGEST_INTERVAL: ${DIGEST_INTERVAL:-43200}
+      AGENT_BASIC_USER: ${AGENT_BASIC_USER:-}
+      AGENT_BASIC_PASS: ${AGENT_BASIC_PASS:-}
+    # Trigger the digest on startup, then every DIGEST_INTERVAL seconds, by POSTing
+    # to the eve HTTP channel's session endpoint (this anchors the session so the
+    # tool-using agent can run to completion — a channel-less native schedule cannot).
+    command:
+      - sh
+      - -c
+      - |
+        apk add --no-cache curl >/dev/null
+        AUTH=""
+        [ -n "$$AGENT_BASIC_USER" ] && AUTH="-u $$AGENT_BASIC_USER:$$AGENT_BASIC_PASS"
+        while true; do
+          echo "[digest-cron] $$(date -u) triggering digest";
+          curl -sS -m 900 $$AUTH -X POST http://agent:3000/eve/v1/session \
+            -H 'content-type: application/json' \
+            -d '{"message":"Run the daily PR & CI digest now per your instructions."}' \
+            && echo "" || echo "[digest-cron] trigger failed";
+          echo "[digest-cron] sleeping $${DIGEST_INTERVAL}s";
+          sleep "$${DIGEST_INTERVAL}";
+        done

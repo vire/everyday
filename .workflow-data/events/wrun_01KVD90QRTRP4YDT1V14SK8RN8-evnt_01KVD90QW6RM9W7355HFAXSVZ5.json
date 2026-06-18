@@ -1,0 +1,29 @@
+{
+  "eventType": "attr_set",
+  "specVersion": 4,
+  "eventData": {
+    "changes": [
+      {
+        "key": "$eve.type",
+        "value": "session"
+      },
+      {
+        "key": "$eve.trigger",
+        "value": "http"
+      },
+      {
+        "key": "$eve.title",
+        "value": "Run the daily PR & CI digest now per your instructions: read memory, gather contributions/PRs/CI, compose the digest, post i…"
+      }
+    ],
+    "writer": {
+      "type": "step",
+      "stepId": "step_01KVD90QSDMRSJYW7YK36M260C",
+      "attempt": 1
+    },
+    "allowReservedAttributes": true
+  },
+  "runId": "wrun_01KVD90QRTRP4YDT1V14SK8RN8",
+  "eventId": "evnt_01KVD90QW6RM9W7355HFAXSVZ5",
+  "createdAt": "2026-06-18T11:49:15.270Z"
+}

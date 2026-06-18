@@ -1,0 +1,15 @@
+{
+  "eventType": "step_completed",
+  "specVersion": 4,
+  "correlationId": "step_01KVD8CCRVZEB3T55884FH3NND",
+  "eventData": {
+    "stepName": "step//eve@0.11.4//emitTerminalSessionFailureStep",
+    "result": {
+      "__type": "Uint8Array",
+      "data": "ZGV2bC0x"
+    }
+  },
+  "runId": "wrun_01KVD8CCRMM4H71261G2TBSTC0",
+  "eventId": "evnt_01KVD8DJX9D0TRNEKW7TTESFT1",
+  "createdAt": "2026-06-18T11:38:47.593Z"
+}

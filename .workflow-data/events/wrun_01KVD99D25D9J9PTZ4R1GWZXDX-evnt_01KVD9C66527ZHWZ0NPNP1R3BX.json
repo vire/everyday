@@ -1,0 +1,13 @@
+{
+  "eventType": "run_completed",
+  "specVersion": 4,
+  "eventData": {
+    "output": {
+      "__type": "Uint8Array",
+      "data": "ZGV2bFt7Im91dHB1dCI6MX0seyJkZWxpdmVyZWQiOjIsInN1bW1hcnkiOjN9LGZhbHNlLCJSZXBvc2l0b3J5IG93bmVyL25hbWUgY291bGQgbm90IGJlIGRldGVybWluZWQgZnJvbSB0aGUgYXZhaWxhYmxlIGRhdGEuIl0="
+    }
+  },
+  "runId": "wrun_01KVD99D25D9J9PTZ4R1GWZXDX",
+  "eventId": "evnt_01KVD9C66527ZHWZ0NPNP1R3BX",
+  "createdAt": "2026-06-18T11:55:30.373Z"
+}

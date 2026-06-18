@@ -1,0 +1,45 @@
+{
+  "eventType": "attr_set",
+  "specVersion": 4,
+  "eventData": {
+    "changes": [
+      {
+        "key": "$eve.type",
+        "value": "subagent"
+      },
+      {
+        "key": "$eve.parent",
+        "value": "wrun_01KVD8KYADNDQC7MES11Z2PH1P"
+      },
+      {
+        "key": "$eve.parent_call",
+        "value": "call_m0Z9swHGR8janMQH6EkyjPd1"
+      },
+      {
+        "key": "$eve.parent_turn",
+        "value": "turn_0"
+      },
+      {
+        "key": "$eve.root",
+        "value": "wrun_01KVD8GP0ZXKQXYVBTJZ22VMFM"
+      },
+      {
+        "key": "$eve.subagent",
+        "value": "__root__"
+      },
+      {
+        "key": "$eve.trigger",
+        "value": "subagent"
+      }
+    ],
+    "writer": {
+      "type": "step",
+      "stepId": "step_01KVD8M01V4EBS33W81QA2YAFE",
+      "attempt": 1
+    },
+    "allowReservedAttributes": true
+  },
+  "runId": "wrun_01KVD8M01THWTCR5WSQRMJ6G4W",
+  "eventId": "evnt_01KVD8M0259KN0JKT2Q9ANCA19",
+  "createdAt": "2026-06-18T11:42:17.669Z"
+}

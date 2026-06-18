@@ -1,0 +1,15 @@
+{
+  "eventType": "step_completed",
+  "specVersion": 4,
+  "correlationId": "step_01KVD8KMD7GBXPEK958WY9FEKC",
+  "eventData": {
+    "stepName": "step//eve@0.11.4//fireSessionCallbackStep",
+    "result": {
+      "__type": "Uint8Array",
+      "data": "ZGV2bC0x"
+    }
+  },
+  "runId": "wrun_01KVD8KMD6M4PAC88H2JXAYS9M",
+  "eventId": "evnt_01KVD8KQ69VMGFBB23JQ413CF7",
+  "createdAt": "2026-06-18T11:42:08.585Z"
+}

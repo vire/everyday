@@ -15,4 +15,22 @@ export default defineAgent({
   model: openrouter(process.env.OPENROUTER_MODEL ?? "openai/gpt-5-codex"),
   // Gateway catalog lookup is skipped for external models; set context window manually.
   modelContextWindowTokens: 128000,
+  // Task-mode (schedule) completion contract: a structured final output tells
+  // the runtime the unattended run is done, so the channel-less scheduled
+  // session terminates cleanly instead of parking ("Cannot park").
+  outputSchema: {
+    type: "object",
+    properties: {
+      delivered: {
+        type: "boolean",
+        description: "true if the digest was successfully posted to Slack",
+      },
+      summary: {
+        type: "string",
+        description: "one-line summary of what the digest reported this run",
+      },
+    },
+    required: ["delivered", "summary"],
+    additionalProperties: false,
+  },
 });

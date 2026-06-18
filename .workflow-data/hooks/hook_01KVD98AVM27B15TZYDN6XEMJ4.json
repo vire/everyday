@@ -1,0 +1,12 @@
+{
+  "runId": "wrun_01KVD98AVK4HJ54681ES68R438",
+  "hookId": "hook_01KVD98AVM27B15TZYDN6XEMJ4",
+  "token": "subagent:wrun_01KVD9875RBRYXAP7404YWFHZ9:call_4T8muokbExLnm0VVvIeJ8zXC",
+  "ownerId": "local-owner",
+  "projectId": "local-project",
+  "environment": "local",
+  "createdAt": "2026-06-18T11:53:24.113Z",
+  "specVersion": 4,
+  "isWebhook": false,
+  "isSystem": false
+}

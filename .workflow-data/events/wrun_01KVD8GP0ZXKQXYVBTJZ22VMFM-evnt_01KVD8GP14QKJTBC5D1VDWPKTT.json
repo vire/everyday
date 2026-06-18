@@ -1,0 +1,22 @@
+{
+  "eventType": "run_created",
+  "specVersion": 4,
+  "eventData": {
+    "deploymentId": "dpl_local@bundled",
+    "workflowName": "workflow//eve//workflowEntry",
+    "input": {
+      "__type": "Uint8Array",
+      "data": "ZGV2bFtbMV0seyJpbnB1dCI6Miwic2VyaWFsaXplZENvbnRleHQiOjR9LHsibWVzc2FnZSI6MywiY29udGV4dCI6LTEsIm91dHB1dFNjaGVtYSI6LTF9LCJSdW4gdGhlIGRhaWx5IFBSICYgQ0kgZGlnZXN0IG5vdyBwZXIgeW91ciBpbnN0cnVjdGlvbnM6IHJlYWQgbWVtb3J5LCBnYXRoZXIgY29udHJpYnV0aW9ucy9QUnMvQ0ksIGNvbXBvc2UgdGhlIGRpZ2VzdCwgcG9zdCBpdCB0byBTbGFjayB3aXRoIHBvc3QtdG8tc2xhY2ssIHRoZW4gdXBkYXRlIG1lbW9yeS4iLHsiZXZlLmJ1bmRsZSI6NSwiZXZlLmNoYW5uZWwiOjExLCJldmUuY2hhbm5lbEluc3RydW1lbnRhdGlvbiI6MTQsImV2ZS5jb250aW51YXRpb25Ub2tlbiI6MTcsImV2ZS5tb2RlIjoxOCwiZXZlLmF1dGgiOjE5LCJldmUuaW5pdGlhdG9yQXV0aCI6MTksImV2ZS5jYXBhYmlsaXRpZXMiOjIyfSx7Im5vZGVJZCI6LTEsInNvdXJjZSI6Nn0seyJhcHBSb290Ijo3LCJraW5kIjo4LCJtb2R1bGVNYXBMb2FkZXJQYXRoIjo5LCJzYW5kYm94QXBwUm9vdCI6MTB9LCIvVXNlcnMvdmlyZS9jb2RlL2dpdGh1Yi9ldmUtYWdlbnQvLmV2ZS9kZXYtcnVudGltZS9zbmFwc2hvdHMvbXFqZmhvYXEtZWQ3NGJlZjYtNzA4OC00ZDVhLWE1MjYtNmVjMTQ2YzAxYTc3L3NvdXJjZSIsImRpc2siLCIvVXNlcnMvdmlyZS9jb2RlL2dpdGh1Yi9ldmUtYWdlbnQvbm9kZV9tb2R1bGVzLy5wbnBtL2V2ZUAwLjExLjRfYWlANy4wLjAtYmV0YS4xNzhfem9kQDQuNC4zX192aXRlQDguMC4xNi9ub2RlX21vZHVsZXMvZXZlL2Rpc3Qvc3JjL2ludGVybmFsL2F1dGhvcmVkLW1vZHVsZS1tYXAtbG9hZGVyLmpzIiwiL1VzZXJzL3ZpcmUvY29kZS9naXRodWIvZXZlLWFnZW50Iix7ImtpbmQiOjEyLCJzdGF0ZSI6MTN9LCJodHRwIix7fSx7ImtpbmQiOjE1LCJtZXRhZGF0YSI6MTZ9LCJjaGFubmVsOmV2ZSIse30sImV2ZTpldmU6MGM3NDVhZDMtMGJlMS00OGRlLWI3NGItODU2YzdiNmY5MTA4IiwiY29udmVyc2F0aW9uIix7ImF0dHJpYnV0ZXMiOjIwLCJhdXRoZW50aWNhdG9yIjoyMSwicHJpbmNpcGFsSWQiOjIxLCJwcmluY2lwYWxUeXBlIjoyMX0se30sImxvY2FsLWRldiIseyJyZXF1ZXN0SW5wdXQiOjIzfSx0cnVlXQ=="
+    },
+    "executionContext": {
+      "traceCarrier": {},
+      "workflowCoreVersion": "5.0.0-beta.17",
+      "features": {
+        "encryption": false
+      }
+    }
+  },
+  "runId": "wrun_01KVD8GP0ZXKQXYVBTJZ22VMFM",
+  "eventId": "evnt_01KVD8GP14QKJTBC5D1VDWPKTT",
+  "createdAt": "2026-06-18T11:40:29.092Z"
+}

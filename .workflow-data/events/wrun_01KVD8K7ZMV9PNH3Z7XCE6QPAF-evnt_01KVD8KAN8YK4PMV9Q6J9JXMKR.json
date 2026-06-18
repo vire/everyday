@@ -1,0 +1,15 @@
+{
+  "eventType": "step_completed",
+  "specVersion": 4,
+  "correlationId": "step_01KVD8K7ZN3G1G4B8Z40PBVSJC",
+  "eventData": {
+    "stepName": "step//eve@0.11.4//notifyDriverStep",
+    "result": {
+      "__type": "Uint8Array",
+      "data": "ZGV2bC0x"
+    }
+  },
+  "runId": "wrun_01KVD8K7ZMV9PNH3Z7XCE6QPAF",
+  "eventId": "evnt_01KVD8KAN8YK4PMV9Q6J9JXMKR",
+  "createdAt": "2026-06-18T11:41:55.752Z"
+}

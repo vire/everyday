@@ -1,0 +1,22 @@
+{
+  "eventType": "run_created",
+  "runId": "wrun_01KVD9GMR0HZ213MM9Z373NH38",
+  "eventId": "evnt_01KVD9GMR8FRRKDM17N741BDXW",
+  "createdAt": "2026-06-18T11:57:56.358Z",
+  "specVersion": 4,
+  "eventData": {
+    "deploymentId": "dpl_local@bundled",
+    "workflowName": "workflow//eve//workflowEntry",
+    "input": {
+      "__type": "Uint8Array",
+      "data": "ZGV2bFtbMV0seyJpbnB1dCI6Miwic2VyaWFsaXplZENvbnRleHQiOjR9LHsibWVzc2FnZSI6MywiY29udGV4dCI6LTEsIm91dHB1dFNjaGVtYSI6LTF9LCJSdW4gdGhlIGRhaWx5IFBSICYgQ0kgZGlnZXN0IG5vdyBwZXIgeW91ciBpbnN0cnVjdGlvbnM6IHJlYWQgbWVtb3J5LCBnYXRoZXIgY29udHJpYnV0aW9ucy9QUnMvQ0ksIGNvbXBvc2UgdGhlIGRpZ2VzdCwgcG9zdCBpdCB0byBTbGFjayB2aWEgcG9zdC10by1zbGFjaywgdGhlbiB1cGRhdGUgbWVtb3J5LiIseyJldmUuYnVuZGxlIjo1LCJldmUuY2hhbm5lbCI6MTEsImV2ZS5jaGFubmVsSW5zdHJ1bWVudGF0aW9uIjoxNCwiZXZlLmNvbnRpbnVhdGlvblRva2VuIjoxNywiZXZlLm1vZGUiOjE4LCJldmUuYXV0aCI6MTksImV2ZS5pbml0aWF0b3JBdXRoIjoxOSwiZXZlLmNhcGFiaWxpdGllcyI6MjJ9LHsibm9kZUlkIjotMSwic291cmNlIjo2fSx7ImFwcFJvb3QiOjcsImtpbmQiOjgsIm1vZHVsZU1hcExvYWRlclBhdGgiOjksInNhbmRib3hBcHBSb290IjoxMH0sIi9Vc2Vycy92aXJlL2NvZGUvZ2l0aHViL2V2ZS1hZ2VudC8uZXZlL2Rldi1ydW50aW1lL3NuYXBzaG90cy9tcWpnNDRqYy05ZDEzNDZmYi1jYTUwLTQwZTItYmQ3NS0wZDg1OGM0Njc4MGYvc291cmNlIiwiZGlzayIsIi9Vc2Vycy92aXJlL2NvZGUvZ2l0aHViL2V2ZS1hZ2VudC9ub2RlX21vZHVsZXMvLnBucG0vZXZlQDAuMTEuNF9haUA3LjAuMC1iZXRhLjE3OF96b2RANC40LjNfX2p1c3QtYmFzaEAzLjAuMV92aXRlQDguMC4xNl95YW1sQDIuOS4wXy9ub2RlX21vZHVsZXMvZXZlL2Rpc3Qvc3JjL2ludGVybmFsL2F1dGhvcmVkLW1vZHVsZS1tYXAtbG9hZGVyLmpzIiwiL1VzZXJzL3ZpcmUvY29kZS9naXRodWIvZXZlLWFnZW50Iix7ImtpbmQiOjEyLCJzdGF0ZSI6MTN9LCJodHRwIix7fSx7ImtpbmQiOjE1LCJtZXRhZGF0YSI6MTZ9LCJjaGFubmVsOmV2ZSIse30sImV2ZTpldmU6NDg5NzM0ZTMtN2RhOS00ZmJjLTliMzctOGJkZjY5YzUzNDY5IiwiY29udmVyc2F0aW9uIix7ImF0dHJpYnV0ZXMiOjIwLCJhdXRoZW50aWNhdG9yIjoyMSwicHJpbmNpcGFsSWQiOjIxLCJwcmluY2lwYWxUeXBlIjoyMX0se30sImxvY2FsLWRldiIseyJyZXF1ZXN0SW5wdXQiOjIzfSx0cnVlXQ=="
+    },
+    "executionContext": {
+      "traceCarrier": {},
+      "workflowCoreVersion": "5.0.0-beta.17",
+      "features": {
+        "encryption": false
+      }
+    }
+  }
+}

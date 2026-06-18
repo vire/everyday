@@ -1,0 +1,12 @@
+{
+  "eventType": "hook_created",
+  "specVersion": 4,
+  "correlationId": "hook_01KVD8J5KFCN65SV3897ABTJ0E",
+  "eventData": {
+    "token": "wrun_01KVD8J5KE9N2NSN2T2HM686QP:auth",
+    "isWebhook": false
+  },
+  "runId": "wrun_01KVD8J5KE9N2NSN2T2HM686QP",
+  "eventId": "evnt_01KVD8J5M1N0NSR8YAYX08SHHE",
+  "createdAt": "2026-06-18T11:41:17.825Z"
+}

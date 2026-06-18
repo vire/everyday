@@ -1,0 +1,11 @@
+{
+  "eventType": "step_started",
+  "specVersion": 4,
+  "correlationId": "step_01KVD92MKNXKX9Y96FKE4WT4XC",
+  "eventData": {
+    "stepName": "step//eve@0.11.4//createSessionStep"
+  },
+  "runId": "wrun_01KVD92MKMH5EFS79AW0JNNB7K",
+  "eventId": "evnt_01KVD92MM4PTAMAQ3S5ZD2JRSW",
+  "createdAt": "2026-06-18T11:50:17.476Z"
+}

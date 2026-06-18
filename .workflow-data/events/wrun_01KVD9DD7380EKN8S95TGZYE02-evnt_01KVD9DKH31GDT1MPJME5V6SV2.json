@@ -1,0 +1,15 @@
+{
+  "eventType": "hook_received",
+  "specVersion": 4,
+  "correlationId": "hook_01KVD9DD74W5W8EED6YBJQJ8G9",
+  "eventData": {
+    "token": "subagent:wrun_01KVD9DB8T7JWC6AS35GMM777F:call_WN57Au5JYmW0aAPo3RqwWhl0",
+    "payload": {
+      "__type": "Uint8Array",
+      "data": "ZGV2bFt7ImtpbmQiOjEsInJlc3VsdHMiOjJ9LCJydW50aW1lLWFjdGlvbi1yZXN1bHQiLFszXSx7ImNhbGxJZCI6NCwia2luZCI6NSwib3V0cHV0Ijo2LCJzdWJhZ2VudE5hbWUiOjksImlzRXJyb3IiOjEwfSwiY2FsbF9UTTE1RXFYRDk4bW5zbEFMYWlaNENnUk4iLCJzdWJhZ2VudC1yZXN1bHQiLHsiY29kZSI6NywibWVzc2FnZSI6OH0sIlNVQkFHRU5UX0VYRUNVVElPTl9GQUlMRUQiLCJUaGUgYWdlbnQgY291bGQgbm90IHByb2R1Y2UgYSByZXN1bHQgbWF0Y2hpbmcgdGhlIHJlcXVlc3RlZCBzY2hlbWEuIiwiYWdlbnQiLHRydWVd"
+    }
+  },
+  "runId": "wrun_01KVD9DD7380EKN8S95TGZYE02",
+  "eventId": "evnt_01KVD9DKH31GDT1MPJME5V6SV2",
+  "createdAt": "2026-06-18T11:56:16.803Z"
+}

@@ -1,0 +1,15 @@
+{
+  "eventType": "step_completed",
+  "specVersion": 4,
+  "correlationId": "step_01KVD99W1PZ6BK7KWH2R6KF1D9",
+  "eventData": {
+    "stepName": "step//eve@0.11.4//dispatchTurnStep",
+    "result": {
+      "__type": "Uint8Array",
+      "data": "ZGV2bFt7InJ1bklkIjoxfSwid3J1bl8wMUtWRDlBMjQzQVJIRFRTOEU0Q0I2MUFIRyJd"
+    }
+  },
+  "runId": "wrun_01KVD99W1P47C9N8X7DWGQPWA4",
+  "eventId": "evnt_01KVD9A24EWACT733SH28AWM8F",
+  "createdAt": "2026-06-18T11:54:20.686Z"
+}

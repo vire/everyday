@@ -1,0 +1,35 @@
+{
+  "runId": "wrun_01KVD9DACMRQNAWEG04XHNB35W",
+  "deploymentId": "dpl_local@bundled",
+  "workflowName": "workflow//eve//workflowEntry",
+  "specVersion": 4,
+  "executionContext": {
+    "traceCarrier": {},
+    "workflowCoreVersion": "5.0.0-beta.17",
+    "features": {
+      "encryption": false
+    }
+  },
+  "input": {
+    "__type": "Uint8Array",
+    "data": "ZGV2bFtbMV0seyJpbnB1dCI6Miwic2VyaWFsaXplZENvbnRleHQiOjZ9LHsibWVzc2FnZSI6Mywib3V0cHV0U2NoZW1hIjo0fSwiWW91IGFyZSB0aGUgc3ViYWdlbnQgXCJhZ2VudFwiLlxuRGVzY3JpcHRpb246IExhdW5jaCBhIG5ldyBhZ2VudCB0byBoYW5kbGUgYSBjb21wbGV4LCBtdWx0aS1zdGVwIHN1YnRhc2suXG5cblRoZSBjYWxsZXIgZGVsZWdhdGVkIHRoZSBmb2xsb3dpbmcgdGFzayB0byB5b3UuIENvbXBsZXRlIGl0IGFuZCByZXR1cm4gdGhlIGZpbmFsIHJlc3VsdCBkaXJlY3RseS5cblxuQ2FsbGVyIG1lc3NhZ2U6XG5PdXRwdXQgc2hvdWxkIG9ubHkgY29udGFpbiB0aGUgY29tbWFuZCBvdXRwdXQgd2l0aCBubyBhZGRpdGlvbmFsIHRleHQuIFRoaXMgY29tbWFuZCBuZWVkcyB0byBiZSBydW4gd2l0aGluIGEgYmFzaCBlbnZpcm9ubWVudC4iLHsidHlwZSI6NX0sInN0cmluZyIseyJldmUuYnVuZGxlIjo3LCJldmUuY2hhbm5lbCI6MTQsImV2ZS5jaGFubmVsSW5zdHJ1bWVudGF0aW9uIjoyOCwiZXZlLmNvbnRpbnVhdGlvblRva2VuIjozMCwiZXZlLm1vZGUiOjMxLCJldmUuYXV0aCI6MzIsImV2ZS5pbml0aWF0b3JBdXRoIjozMiwiZXZlLmNhcGFiaWxpdGllcyI6MzUsImV2ZS5wYXJlbnRTZXNzaW9uIjozNn0seyJub2RlSWQiOjgsInNvdXJjZSI6OX0sIl9fcm9vdF9fIix7ImFwcFJvb3QiOjEwLCJraW5kIjoxMSwibW9kdWxlTWFwTG9hZGVyUGF0aCI6MTIsInNhbmRib3hBcHBSb290IjoxM30sIi9Vc2Vycy92aXJlL2NvZGUvZ2l0aHViL2V2ZS1hZ2VudC8uZXZlL2Rldi1ydW50aW1lL3NuYXBzaG90cy9tcWpmc3ZmZi1jNzU4YzU3OS0yZjU0LTQxNzQtOWU5Zi1jNmQzYTI1OWI5Yjkvc291cmNlIiwiZGlzayIsIi9Vc2Vycy92aXJlL2NvZGUvZ2l0aHViL2V2ZS1hZ2VudC9ub2RlX21vZHVsZXMvLnBucG0vZXZlQDAuMTEuNF9haUA3LjAuMC1iZXRhLjE3OF96b2RANC40LjNfX3ZpdGVAOC4wLjE2L25vZGVfbW9kdWxlcy9ldmUvZGlzdC9zcmMvaW50ZXJuYWwvYXV0aG9yZWQtbW9kdWxlLW1hcC1sb2FkZXIuanMiLCIvVXNlcnMvdmlyZS9jb2RlL2dpdGh1Yi9ldmUtYWdlbnQiLHsia2luZCI6MTUsInN0YXRlIjoxNn0sInN1YmFnZW50Iix7ImNhbGxJZCI6MTcsInBhcmVudENvbnRpbnVhdGlvblRva2VuIjoxOCwicGFyZW50U2Vzc2lvbklkIjoxOSwic3ViYWdlbnROYW1lIjoyMCwicGFyZW50U2FuZGJveFN0YXRlIjoyMSwic2FuZGJveFNlc3Npb25JZCI6MTl9LCJjYWxsX2J5NlU5ZEJLRVF1T0xGU3AxZ0JXbG1FRyIsInN1YmFnZW50OndydW5fMDFLVkQ5Q1I1UlBRSk4wWVA1U1k2OE1SUzg6Y2FsbF81NVpsOTFHdFkzcFBJcXFqbFVtb0QzQUwiLCJ3cnVuXzAxS1ZEOUNUQkRFNzhWR1dKNzFZSDdDWTFDIiwiYWdlbnQiLHsiaW5pdGlhbGl6ZWQiOjIyLCJzZXNzaW9uIjoyM30sdHJ1ZSx7ImJhY2tlbmROYW1lIjoyNCwibWV0YWRhdGEiOjI1LCJzZXNzaW9uS2V5IjoyN30sImp1c3QtYmFzaCIseyJyb290UGF0aCI6MjZ9LCIvVXNlcnMvdmlyZS9jb2RlL2dpdGh1Yi9ldmUtYWdlbnQvLmV2ZS9zYW5kYm94LWNhY2hlL2p1c3QtYmFzaC9zZXNzaW9ucy9ldmUtc2J4LXNlcy1qdXN0LWJhc2gtZTU5MjExNjc4MjRmNjk2MS13cnVuXzAxS1ZEOTkyQUZLNktXTUsyUERLMzM3NDc4LV9fcm9vdF9fIiwiZXZlLXNieC1zZXMtanVzdC1iYXNoLWU1OTIxMTY3ODI0ZjY5NjEtd3J1bl8wMUtWRDk5MkFGSzZLV01LMlBESzMzNzQ3OC1fX3Jvb3RfXyIseyJraW5kIjoxNSwibWV0YWRhdGEiOjI5fSx7fSwic3ViYWdlbnQ6d3J1bl8wMUtWRDlDVEJERTc4VkdXSjcxWUg3Q1kxQzpjYWxsX2J5NlU5ZEJLRVF1T0xGU3AxZ0JXbG1FRyIsInRhc2siLHsiYXR0cmlidXRlcyI6MzMsImF1dGhlbnRpY2F0b3IiOjM0LCJwcmluY2lwYWxJZCI6MzQsInByaW5jaXBhbFR5cGUiOjM0fSx7fSwibG9jYWwtZGV2Iix7InJlcXVlc3RJbnB1dCI6MjJ9LHsiY2FsbElkIjoxNywicm9vdFNlc3Npb25JZCI6MzcsInNlc3Npb25JZCI6MTksInR1cm4iOjM4fSwid3J1bl8wMUtWRDkwUVJUUlA0WURUMVYxNFNLOFJOOCIseyJpZCI6MzksInNlcXVlbmNlIjo0MH0sInR1cm5fMCIsMF0="
+  },
+  "createdAt": "2026-06-18T11:56:07.445Z",
+  "startedAt": "2026-06-18T11:56:07.445Z",
+  "status": "completed",
+  "output": {
+    "__type": "Uint8Array",
+    "data": "ZGV2bFt7Im91dHB1dCI6MX0sIiJd"
+  },
+  "completedAt": "2026-06-18T11:56:08.044Z",
+  "updatedAt": "2026-06-18T11:56:08.044Z",
+  "attributes": {
+    "$eve.type": "subagent",
+    "$eve.parent": "wrun_01KVD9CTBDE78VGWJ71YH7CY1C",
+    "$eve.parent_call": "call_by6U9dBKEQuOLFSp1gBWlmEG",
+    "$eve.parent_turn": "turn_0",
+    "$eve.root": "wrun_01KVD90QRTRP4YDT1V14SK8RN8",
+    "$eve.subagent": "__root__",
+    "$eve.trigger": "subagent"
+  }
+}

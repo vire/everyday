@@ -1,0 +1,11 @@
+{
+  "eventType": "hook_disposed",
+  "specVersion": 4,
+  "correlationId": "hook_01KVD99VT3TFV0FHN1AEJY4QJ4",
+  "eventData": {
+    "token": "wrun_01KVD99VT2YRXTJC1624VNG5WV:auth"
+  },
+  "runId": "wrun_01KVD99VT2YRXTJC1624VNG5WV",
+  "eventId": "evnt_01KVD9A9TKKNW4XJ3SQ0MJPR0Q",
+  "createdAt": "2026-06-18T11:54:28.563Z"
+}

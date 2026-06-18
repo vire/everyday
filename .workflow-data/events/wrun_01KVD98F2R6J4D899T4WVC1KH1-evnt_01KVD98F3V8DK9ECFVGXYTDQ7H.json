@@ -1,0 +1,29 @@
+{
+  "eventType": "attr_set",
+  "specVersion": 4,
+  "eventData": {
+    "changes": [
+      {
+        "key": "$eve.type",
+        "value": "turn"
+      },
+      {
+        "key": "$eve.parent",
+        "value": "wrun_01KVD96G1AKMX1GJ99QAEYAFQ2"
+      },
+      {
+        "key": "$eve.root",
+        "value": "wrun_01KVD90QRTRP4YDT1V14SK8RN8"
+      }
+    ],
+    "writer": {
+      "type": "step",
+      "stepId": "step_01KVD98F2SP9E1ZR843QH70K4Y",
+      "attempt": 1
+    },
+    "allowReservedAttributes": true
+  },
+  "runId": "wrun_01KVD98F2R6J4D899T4WVC1KH1",
+  "eventId": "evnt_01KVD98F3V8DK9ECFVGXYTDQ7H",
+  "createdAt": "2026-06-18T11:53:28.443Z"
+}

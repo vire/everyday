@@ -1,0 +1,15 @@
+{
+  "eventType": "step_completed",
+  "specVersion": 4,
+  "correlationId": "step_01KVD9DFAJ29TWRSMNEN3CTHB5",
+  "eventData": {
+    "stepName": "step//eve@0.11.4//notifyDelegatedParentStep",
+    "result": {
+      "__type": "Uint8Array",
+      "data": "ZGV2bC0x"
+    }
+  },
+  "runId": "wrun_01KVD9DFAH002AD7M70WW54YE5",
+  "eventId": "evnt_01KVD9DKH417AKF4AQDTESTZCB",
+  "createdAt": "2026-06-18T11:56:16.804Z"
+}

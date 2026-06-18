@@ -1,0 +1,11 @@
+{
+  "eventType": "hook_disposed",
+  "specVersion": 4,
+  "correlationId": "hook_01KVD8JQ0D8AW6S2KAS1VH3NAM",
+  "eventData": {
+    "token": "subagent:wrun_01KVD8JBGBPB1BGDRPAH1K2Q1K:call_HYoLIBbXCVik1wPUqf2QJEmb"
+  },
+  "runId": "wrun_01KVD8JQ0CWSHR9E88JXBFC3S4",
+  "eventId": "evnt_01KVD8JST333MCJ0VASFK0E1NT",
+  "createdAt": "2026-06-18T11:41:38.499Z"
+}

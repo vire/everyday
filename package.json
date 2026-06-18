@@ -21,6 +21,7 @@
     "node": "24.x"
   },
   "devDependencies": {
+    "just-bash": "^3.0.1",
     "vitest": "^4.1.9"
   }
 }

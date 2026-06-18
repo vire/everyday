@@ -1,0 +1,30 @@
+{
+  "runId": "wrun_01KVD8KS8BQ6AT98A73BFHTXK5",
+  "status": "running",
+  "deploymentId": "dpl_local@bundled",
+  "workflowName": "workflow//eve//workflowEntry",
+  "specVersion": 4,
+  "executionContext": {
+    "traceCarrier": {},
+    "workflowCoreVersion": "5.0.0-beta.17",
+    "features": {
+      "encryption": false
+    }
+  },
+  "input": {
+    "__type": "Uint8Array",
+    "data": "ZGV2bFtbMV0seyJpbnB1dCI6Miwic2VyaWFsaXplZENvbnRleHQiOjExfSx7Im1lc3NhZ2UiOjMsIm91dHB1dFNjaGVtYSI6NH0sIllvdSBhcmUgdGhlIHN1YmFnZW50IFwiYWdlbnRcIi5cbkRlc2NyaXB0aW9uOiBMYXVuY2ggYSBuZXcgYWdlbnQgdG8gaGFuZGxlIGEgY29tcGxleCwgbXVsdGktc3RlcCBzdWJ0YXNrLlxuXG5UaGUgY2FsbGVyIGRlbGVnYXRlZCB0aGUgZm9sbG93aW5nIHRhc2sgdG8geW91LiBDb21wbGV0ZSBpdCBhbmQgcmV0dXJuIHRoZSBmaW5hbCByZXN1bHQgZGlyZWN0bHkuXG5cbkNhbGxlciBtZXNzYWdlOlxuUnVuIHRoZSBjb21tYW5kIGV4YWN0bHk6XG5iYXNoIC1sYyBcImRhdGUgLXUgLWQgJzI0IGhvdXJzIGFnbycgK1xcXCIlWS0lbS0lZFQlSDolTTolU1pcXFwiXCIiLHsidHlwZSI6NSwicHJvcGVydGllcyI6NiwicmVxdWlyZWQiOjl9LCJvYmplY3QiLHsicmVzdWx0Ijo3fSx7InR5cGUiOjh9LCJzdHJpbmciLFsxMF0sInJlc3VsdCIseyJldmUuYnVuZGxlIjoxMiwiZXZlLmNoYW5uZWwiOjE5LCJldmUuY2hhbm5lbEluc3RydW1lbnRhdGlvbiI6MzIsImV2ZS5jb250aW51YXRpb25Ub2tlbiI6MzQsImV2ZS5tb2RlIjozNSwiZXZlLmF1dGgiOjM2LCJldmUuaW5pdGlhdG9yQXV0aCI6MzYsImV2ZS5jYXBhYmlsaXRpZXMiOjM5LCJldmUucGFyZW50U2Vzc2lvbiI6NDB9LHsibm9kZUlkIjoxMywic291cmNlIjoxNH0sIl9fcm9vdF9fIix7ImFwcFJvb3QiOjE1LCJraW5kIjoxNiwibW9kdWxlTWFwTG9hZGVyUGF0aCI6MTcsInNhbmRib3hBcHBSb290IjoxOH0sIi9Vc2Vycy92aXJlL2NvZGUvZ2l0aHViL2V2ZS1hZ2VudC8uZXZlL2Rldi1ydW50aW1lL3NuYXBzaG90cy9tcWpmaG9hcS1lZDc0YmVmNi03MDg4LTRkNWEtYTUyNi02ZWMxNDZjMDFhNzcvc291cmNlIiwiZGlzayIsIi9Vc2Vycy92aXJlL2NvZGUvZ2l0aHViL2V2ZS1hZ2VudC9ub2RlX21vZHVsZXMvLnBucG0vZXZlQDAuMTEuNF9haUA3LjAuMC1iZXRhLjE3OF96b2RANC40LjNfX3ZpdGVAOC4wLjE2L25vZGVfbW9kdWxlcy9ldmUvZGlzdC9zcmMvaW50ZXJuYWwvYXV0aG9yZWQtbW9kdWxlLW1hcC1sb2FkZXIuanMiLCIvVXNlcnMvdmlyZS9jb2RlL2dpdGh1Yi9ldmUtYWdlbnQiLHsia2luZCI6MjAsInN0YXRlIjoyMX0sInN1YmFnZW50Iix7ImNhbGxJZCI6MjIsInBhcmVudENvbnRpbnVhdGlvblRva2VuIjoyMywicGFyZW50U2Vzc2lvbklkIjoyNCwic3ViYWdlbnROYW1lIjoyNSwicGFyZW50U2FuZGJveFN0YXRlIjoyNiwic2FuZGJveFNlc3Npb25JZCI6MjR9LCJjYWxsX3JYaERQRml2UFQzZU9BUEJ4N3JmT0pKWCIsInN1YmFnZW50OndydW5fMDFLVkQ4S0hBSzIzNzc3TjFGNFRYS0VZQ1g6Y2FsbF9vU3NPS0NIY1pEVFJ1UTB2anJvcDJ3TlQiLCJ3cnVuXzAxS1ZEOEtKTlM3UDUyMTBDMDNXTVBEUVRLIiwiYWdlbnQiLHsiaW5pdGlhbGl6ZWQiOjI3LCJzZXNzaW9uIjoyOH0sdHJ1ZSx7ImJhY2tlbmROYW1lIjoyOSwibWV0YWRhdGEiOjMwLCJzZXNzaW9uS2V5IjozMX0sImRvY2tlciIseyJjb250YWluZXJOYW1lIjozMX0sImV2ZS1zYngtc2VzLWRvY2tlci1lNTkyMTE2NzgyNGY2OTYxLXdydW5fMDFLVkQ4SjlQS1YwOFI1UlpYM0NDQ1JZNFctX19yb290X18iLHsia2luZCI6MjAsIm1ldGFkYXRhIjozM30se30sInN1YmFnZW50OndydW5fMDFLVkQ4S0pOUzdQNTIxMEMwM1dNUERRVEs6Y2FsbF9yWGhEUEZpdlBUM2VPQVBCeDdyZk9KSlgiLCJ0YXNrIix7ImF0dHJpYnV0ZXMiOjM3LCJhdXRoZW50aWNhdG9yIjozOCwicHJpbmNpcGFsSWQiOjM4LCJwcmluY2lwYWxUeXBlIjozOH0se30sImxvY2FsLWRldiIseyJyZXF1ZXN0SW5wdXQiOjI3fSx7ImNhbGxJZCI6MjIsInJvb3RTZXNzaW9uSWQiOjQxLCJzZXNzaW9uSWQiOjI0LCJ0dXJuIjo0Mn0sIndydW5fMDFLVkQ4R1AwWlhLUVhZVkJUSloyMlZNRk0iLHsiaWQiOjQzLCJzZXF1ZW5jZSI6NDR9LCJ0dXJuXzAiLDBd"
+  },
+  "attributes": {
+    "$eve.type": "subagent",
+    "$eve.parent": "wrun_01KVD8KJNS7P5210C03WMPDQTK",
+    "$eve.parent_call": "call_rXhDPFivPT3eOAPBx7rfOJJX",
+    "$eve.parent_turn": "turn_0",
+    "$eve.root": "wrun_01KVD8GP0ZXKQXYVBTJZ22VMFM",
+    "$eve.subagent": "__root__",
+    "$eve.trigger": "subagent"
+  },
+  "startedAt": "2026-06-18T11:42:10.700Z",
+  "createdAt": "2026-06-18T11:42:10.700Z",
+  "updatedAt": "2026-06-18T11:42:10.710Z"
+}

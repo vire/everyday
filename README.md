@@ -32,8 +32,10 @@ eve-agent/
 │   │   └── ...               #   post-to-slack); each shells out to `gh` or curl
 │   ├── skills/               # digest-format, classifying-contributions,
 │   │   └── ...               #   repo-improvement-playbook
-│   └── schedules/
-│       └── daily-digest.md   # cron: "0 7 * * *" (UTC)
+│   ├── channels/             # eve.ts — HTTP trigger surface (optional Basic auth)
+│   └── hooks/                # session-logger.ts — per-event session logging
+├── scripts/
+│   └── trigger-digest.sh     # one-shot trigger; run by a Coolify Scheduled Task
 ├── lib/                      # Pure logic — no I/O, fully unit-tested
 │   ├── contributions.ts      # Commit classification
 │   ├── pull-requests.ts      # PR grouping
@@ -54,7 +56,7 @@ eve-agent/
 - Eve tools in `agent/tools/` are thin wrappers that call `lib/` for computation and `gh`/`curl` for I/O.
 - The model is loaded via `@ai-sdk/openai-compatible` pointed at `openrouter.ai`, bypassing the Vercel AI Gateway catalog. Any OpenRouter model slug works.
 - Memory lives in a private Gist (not a database) — portable and auditable.
-- The daily trigger is a native Eve schedule (`cron` frontmatter) — no external cron daemon needed when `eve start` is running.
+- The daily trigger is a **Coolify Scheduled Task** that runs `scripts/trigger-digest.sh` inside the agent container on a cron cadence — no sidecar or external cron daemon, just the single `eve start` server container.
 
 ---
 
@@ -84,11 +86,15 @@ cp .env.example .env
 | `TARGET_REPO` | Yes | `owner/name` of the GitHub repository to digest |
 | `GITHUB_LOGIN` | No | Your GitHub login for contribution attribution; defaults to `gh api user` |
 | `GH_TOKEN` | Yes | Personal Access Token with `repo` + `gist` scopes |
-| `OPENROUTER_API_KEY` | Yes | OpenRouter key (`sk-or-...`) |
-| `OPENROUTER_MODEL` | Yes | Any valid OpenRouter model slug (default: `openai/gpt-5-nano`). **Avoid `*-codex` slugs** — they enforce strict function-call schemas and reject this agent's tool definitions. **Confirm the slug exists in your OpenRouter catalog.** Alternatives: `openai/gpt-5-mini`, `openai/gpt-5.2`. |
+| `OPENAI_API_KEY` | Provider | Your OpenAI key (`sk-...`). Used **only when `OPENAI_MODEL` is also set** — then the agent talks to OpenAI directly. |
+| `OPENAI_MODEL` | Provider | OpenAI model slug (e.g. `gpt-5-nano`). Required to select OpenAI; leave empty to stay on OpenRouter. **Avoid `*-codex` slugs.** |
+| `OPENROUTER_API_KEY` | Provider | OpenRouter key (`sk-or-...`). Used unless **both** OpenAI vars above are set. |
+| `OPENROUTER_MODEL` | No | OpenRouter model slug (default: `openai/gpt-5-nano`). **Avoid `*-codex` slugs** — they enforce strict function-call schemas and reject this agent's tool definitions. **Confirm the slug exists in your OpenRouter catalog.** Alternatives: `openai/gpt-5-mini`, `openai/gpt-5.2`. |
 | `SLACK_BOT_TOKEN` | Yes | Slack bot token (`xoxb-...`) with `chat:write` scope |
 | `SLACK_CHANNEL_ID` | Yes | Target Slack channel ID (`C0XXXXXXX`) |
 
+> **Provider precedence:** OpenAI takes preference, but only when **both** `OPENAI_API_KEY` and `OPENAI_MODEL` are set. With either missing it falls back to OpenRouter — so set one provider's pair fully. The rule lives in `agent/lib/model.ts` (unit-tested in `agent/lib/model.test.ts`).
+>
 > **Context window:** `modelContextWindowTokens` is set to `128_000` in `agent/agent.ts`. Raise it to match your model's actual context window if needed.
 
 ---
@@ -107,30 +113,39 @@ pnpm install
 eve dev
 ```
 
-Starts the agent server in development mode. Schedules do **not** fire automatically in dev. To trigger the digest manually:
+Starts the agent server in development mode. To trigger a digest run manually, POST to the session endpoint (the same call the production Scheduled Task makes):
 
 ```bash
-curl -X POST http://localhost:3000/eve/v1/dev/schedules/daily-digest
+curl -X POST http://localhost:3000/eve/v1/session \
+  -H 'content-type: application/json' \
+  -d '{"message":"Run the daily PR & CI digest now per your instructions."}'
+# or, inside/against a running container:
+sh scripts/trigger-digest.sh
 ```
 
 ### Production
 
+`docker-compose.yml` / the Dockerfile run a single container that serves the agent:
+
 ```bash
-eve start
+eve start   # the container CMD; keeps the HTTP server up on :3000
 ```
 
-Keeps the agent server running and fires the native schedule (`0 7 * * *` UTC) each day.
+**Scheduling is a Coolify "Scheduled Task" on the agent resource** — not code in this repo. After deploying, add a Scheduled Task that execs the trigger script in the agent container:
 
-> **Timezone:** Eve evaluates cron expressions in UTC — there is no `timezone` field. The default `"0 7 * * *"` fires at 07:00 UTC. Adjust the hour in `agent/schedules/daily-digest.md` for your local time:
->
-> | Desired local time | UTC cron hour |
-> |---|---|
-> | 07:00 UTC | `0 7 * * *` |
-> | 07:00 CET (UTC+1) | `0 6 * * *` |
-> | 07:00 EST (UTC-5) | `0 12 * * *` |
-> | 07:00 PST (UTC-8) | `0 15 * * *` |
+| Field | Value |
+|---|---|
+| Name | `daily-digest` |
+| Command | `sh /app/scripts/trigger-digest.sh` |
+| Frequency | `0 7 * * *` (cron) |
+| Timeout (seconds) | `900` |
+| Container name | `agent` |
 
-For systemd or pm2 setup see [`docs/superpowers/notes/running-in-production.md`](docs/superpowers/notes/running-in-production.md).
+The script POSTs to the agent's own `/eve/v1/session` endpoint (anchoring a session so the tool-using run completes) and forwards HTTP Basic auth when `AGENT_BASIC_USER` / `AGENT_BASIC_PASS` are set.
+
+> **Timezone:** Coolify evaluates the Frequency cron in the **Coolify server's timezone** (configurable in Coolify settings), not necessarily UTC — pick the hour to match. e.g. for 07:00 CET on a UTC host use `0 6 * * *`.
+
+For systemd or pm2 setup (running the server outside Coolify) see [`docs/superpowers/notes/running-in-production.md`](docs/superpowers/notes/running-in-production.md).
 
 ---
 
@@ -160,12 +175,11 @@ Runs `evals/digest.eval.ts`, which dispatches the daily-digest schedule and asse
 
 Before the digest will work end to end:
 
-- [ ] Copy `.env.example` to `.env` and fill in all five required values.
-- [ ] Confirm your `OPENROUTER_MODEL` slug exists in your OpenRouter catalog at [openrouter.ai/models](https://openrouter.ai/models).
+- [ ] Copy `.env.example` to `.env` and fill in the required values.
+- [ ] Pick a provider: set **both** `OPENAI_API_KEY` and `OPENAI_MODEL` to use OpenAI, **or** set `OPENROUTER_API_KEY` (+ optional `OPENROUTER_MODEL`) to use OpenRouter. Confirm the slug exists in that provider's catalog.
 - [ ] Verify `gh auth status` shows the PAT with `repo` and `gist` scopes.
-- [ ] Run `eve dev`, then `curl -X POST http://localhost:3000/eve/v1/dev/schedules/daily-digest` and watch the session stream — confirm the Slack post arrives and the Gist is created/updated.
-- [ ] Adjust the cron hour in `agent/schedules/daily-digest.md` for your timezone.
-- [ ] Start production with `eve start` (or configure systemd/pm2 — see `running-in-production.md`).
+- [ ] Run `eve dev`, then `sh scripts/trigger-digest.sh` (or the `curl` above) and watch the session stream — confirm the Slack post arrives and the Gist is created/updated.
+- [ ] Start production with `eve start` (the container CMD), then add the Coolify **Scheduled Task** (`sh /app/scripts/trigger-digest.sh` on the `agent` container) with your cron hour.
 - [ ] Optionally raise `modelContextWindowTokens` in `agent/agent.ts` to your model's real context window.
 
 ---

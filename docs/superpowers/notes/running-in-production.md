@@ -2,11 +2,19 @@
 
 ## How scheduling works
 
-The daily digest fires via a **native Eve schedule** defined in `agent/schedules/daily-digest.md`. There is no external cron script. Eve reads the `cron` frontmatter and manages the schedule itself. To have the schedule fire, you must keep `eve start` running on the server.
+The daily digest fires from a **Coolify "Scheduled Task"** attached to the agent resource — not from code in this repo and not from a sidecar container. Coolify execs a command inside the running `agent` container on a cron cadence; that command runs `scripts/trigger-digest.sh`, which POSTs to the agent's own `/eve/v1/session` endpoint (anchoring a session so the tool-using run completes). The only long-running process is the `eve start` server container itself.
 
-```
-cron: "0 7 * * *"   # 07:00 UTC daily (see timezone note below)
-```
+Configure the Scheduled Task (Resource → Scheduled Tasks → New) as:
+
+| Field | Value |
+|---|---|
+| Name | `daily-digest` |
+| Command | `sh /app/scripts/trigger-digest.sh` |
+| Frequency | `0 7 * * *` (cron — see timezone note below) |
+| Timeout (seconds) | `900` (≥ the script's `curl -m`, so it isn't killed mid-run) |
+| Container name | `agent` |
+
+`trigger-digest.sh` forwards HTTP Basic auth when `AGENT_BASIC_USER` / `AGENT_BASIC_PASS` are set (they're already in the container env), matching `agent/channels/eve.ts`.
 
 ## Running the agent server
 
@@ -58,25 +66,25 @@ Set these in your `.env` file (or system environment):
 | `TARGET_REPO` | `owner/name` of the GitHub repository to digest |
 | `GITHUB_LOGIN` | Optional — GitHub login for contribution attribution |
 | `GH_TOKEN` | PAT with `repo` + `gist` scopes |
-| `OPENAI_API_KEY` | Your own OpenAI key (`sk-...`). When set, the agent talks to OpenAI directly instead of OpenRouter. |
-| `OPENAI_MODEL` | OpenAI model slug (default: `gpt-5-nano`; avoid `*-codex` slugs) |
-| `OPENROUTER_API_KEY` | OpenRouter API key (`sk-or-...`) — used only when `OPENAI_API_KEY` is unset |
+| `OPENAI_API_KEY` | Your own OpenAI key (`sk-...`). Used only **together with** `OPENAI_MODEL` — then the agent talks to OpenAI directly. |
+| `OPENAI_MODEL` | OpenAI model slug (e.g. `gpt-5-nano`; avoid `*-codex` slugs). **Required** to select OpenAI; leave empty to stay on OpenRouter. |
+| `OPENROUTER_API_KEY` | OpenRouter API key (`sk-or-...`) — used unless **both** OpenAI vars above are set |
 | `OPENROUTER_MODEL` | OpenRouter model slug (default: `openai/gpt-5-nano`; avoid `*-codex` slugs) |
 | `SLACK_BOT_TOKEN` | Slack bot token (`xoxb-...`) with `chat:write` scope |
 | `SLACK_CHANNEL_ID` | Target Slack channel ID (`C0XXXXXXX`) |
 
 ## Timezone note
 
-Eve evaluates cron expressions in **UTC** (confirmed by Eve docs: "Vercel evaluates the expression in UTC"). The schedule `"0 7 * * *"` fires at **07:00 UTC**. If your team is in a different timezone, adjust the hour:
+Coolify evaluates the Scheduled Task's Frequency cron in the **Coolify server's timezone** (set under Settings → Instance timezone), which is often UTC. Pick the cron hour to match your desired local time. Assuming a UTC host:
 
-| Desired local time | UTC cron hour |
+| Desired local time | cron hour |
 |---|---|
 | 07:00 UTC | `0 7 * * *` |
 | 07:00 CET (UTC+1) | `0 6 * * *` |
 | 07:00 EST (UTC-5) | `0 12 * * *` |
 | 07:00 PST (UTC-8) | `0 15 * * *` |
 
-`defineSchedule` has **no `timezone` field** — the cron is always UTC. Adjust the hour in `agent/schedules/daily-digest.md` to match your desired local time.
+Adjust the **Frequency** field of the `daily-digest` Scheduled Task in the Coolify UI — there is no cron expression committed to the repo.
 
 ## Inspecting sessions (logs)
 
@@ -140,10 +148,14 @@ or add `/app/logs` as a Persistent Storage mount in the Coolify UI.
 
 ## Local testing
 
-Use `eve dev` to run the agent locally. Schedules do **not** fire on their cron cadence in dev mode. To trigger the schedule manually during development:
+Use `eve dev` to run the agent locally. To trigger a digest run manually during development — the same call the production Scheduled Task makes:
 
 ```bash
-curl -X POST http://localhost:3000/eve/v1/dev/schedules/daily-digest
+sh scripts/trigger-digest.sh
+# …or directly:
+curl -X POST http://localhost:3000/eve/v1/session \
+  -H 'content-type: application/json' \
+  -d '{"message":"Run the daily PR & CI digest now per your instructions."}'
 ```
 
-This fires the schedule exactly once and returns the started session ID so you can watch the stream.
+This starts one session and returns the session ID so you can watch the stream.

@@ -1,19 +1,25 @@
-# Coolify deployment: the eve agent in production mode + a 12h trigger.
+# Coolify deployment: the eve agent in production mode (a single container).
+#
+# Scheduling is NOT in this file. The daily run is driven by a Coolify
+# "Scheduled Task" attached to this `agent` resource, which execs the trigger
+# script inside the container on a cron cadence:
+#   Name: daily-digest  Command: sh /app/scripts/trigger-digest.sh
+#   Frequency: 0 7 * * *   Timeout: 900   Container name: agent
+# See scripts/trigger-digest.sh and docs/superpowers/notes/running-in-production.md.
 #
 # Set these env vars in Coolify (do NOT commit real secrets):
 #   TARGET_REPO        owner/name of the repo to digest
 #   GH_TOKEN           GitHub PAT, scopes: repo + gist  (gh CLI authenticates from this)
 #   GITHUB_LOGIN       optional; defaults to the gh-authenticated user
-#   Model provider — set EITHER your own OpenAI key OR an OpenRouter key:
-#   OPENAI_API_KEY     OpenAI key (sk-...); when set, the agent talks to OpenAI directly
-#   OPENAI_MODEL       OpenAI model slug (default gpt-5-nano; avoid *-codex slugs)
-#   OPENROUTER_API_KEY OpenRouter key (used only when OPENAI_API_KEY is unset)
+#   Model provider — OpenAI takes preference, but ONLY when BOTH of its vars are set:
+#   OPENAI_API_KEY     OpenAI key (sk-...). With OPENAI_MODEL, the agent talks to OpenAI directly.
+#   OPENAI_MODEL       OpenAI model slug (e.g. gpt-5-nano; avoid *-codex slugs). Required to use OpenAI.
+#   OPENROUTER_API_KEY OpenRouter key — used unless BOTH OpenAI vars above are set.
 #   OPENROUTER_MODEL   OpenRouter slug (default openai/gpt-5-nano; codex slugs reject our tool schemas)
 #   SLACK_BOT_TOKEN    Slack bot token (xoxb-...)
 #   SLACK_CHANNEL_ID   target channel id (e.g. C09HDQ4K1TQ); bot must be invited to it
 #   MEMORY_GIST_ID     optional; the private gist holding memory.md
-#   DIGEST_INTERVAL    optional; seconds between runs (default 43200 = 12h)
-#   AGENT_BASIC_USER   trigger auth username (cron sends it). If unset, the
+#   AGENT_BASIC_USER   trigger auth username (the scheduled task sends it). If unset, the
 #   AGENT_BASIC_PASS   session endpoint is OPEN — only safe if port 3000 is not
 #                      published publicly. Set both to require HTTP Basic.
 #   EVE_LOG_DIR        optional; where the session logger writes (default
@@ -35,7 +41,9 @@ services:
       GITHUB_LOGIN: ${GITHUB_LOGIN:-}
       GH_TOKEN: ${GH_TOKEN}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
-      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-5-nano}
+      # No default: OpenAI is used only when BOTH OPENAI_API_KEY and OPENAI_MODEL
+      # are set, so leaving this empty keeps the agent on OpenRouter by default.
+      OPENAI_MODEL: ${OPENAI_MODEL:-}
       OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
       OPENROUTER_MODEL: ${OPENROUTER_MODEL:-openai/gpt-5-nano}
       SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
@@ -58,36 +66,10 @@ services:
       timeout: 5s
       retries: 20
       start_period: 40s
-
-  digest-cron:
-    image: alpine:3.20
-    restart: unless-stopped
-    depends_on:
-      agent:
-        condition: service_healthy
-    environment:
-      DIGEST_INTERVAL: ${DIGEST_INTERVAL:-43200}
-      AGENT_BASIC_USER: ${AGENT_BASIC_USER:-}
-      AGENT_BASIC_PASS: ${AGENT_BASIC_PASS:-}
-    # Trigger the digest on startup, then every DIGEST_INTERVAL seconds, by POSTing
-    # to the eve HTTP channel's session endpoint (this anchors the session so the
-    # tool-using agent can run to completion — a channel-less native schedule cannot).
-    command:
-      - sh
-      - -c
-      - |
-        apk add --no-cache curl >/dev/null
-        AUTH=""
-        [ -n "$$AGENT_BASIC_USER" ] && AUTH="-u $$AGENT_BASIC_USER:$$AGENT_BASIC_PASS"
-        while true; do
-          echo "[digest-cron] $$(date -u) triggering digest";
-          curl -sS -m 900 $$AUTH -X POST http://agent:3000/eve/v1/session \
-            -H 'content-type: application/json' \
-            -d '{"message":"Run the daily PR & CI digest now per your instructions."}' \
-            && echo "" || echo "[digest-cron] trigger failed";
-          echo "[digest-cron] sleeping $${DIGEST_INTERVAL}s";
-          sleep "$${DIGEST_INTERVAL}";
-        done
+    # Scheduling: add a Coolify "Scheduled Task" on this resource that runs
+    #   sh /app/scripts/trigger-digest.sh
+    # in the `agent` container on your chosen cron (e.g. 0 7 * * *). It replaces
+    # the old digest-cron sidecar — no extra container needed.
 
 volumes:
   eve-logs:

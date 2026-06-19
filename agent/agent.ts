@@ -1,21 +1,14 @@
 import { defineAgent } from "eve";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
+import { selectModelConfig } from "./lib/model";
 
-// Provider is chosen by which key is present, so you can run against your own
-// OpenAI account or via OpenRouter without code changes:
-//   OPENAI_API_KEY set → OpenAI directly (api.openai.com); slug e.g. "gpt-5-nano"
-//   otherwise          → OpenRouter (openrouter.ai);       slug e.g. "openai/gpt-5-nano"
-// Built lazily (apiKey ?? "") so construction never throws when a key is absent
-// at module-load time — providers throw at call time, not construction.
-const useOpenAI = Boolean(process.env.OPENAI_API_KEY);
-const provider = createOpenAICompatible({
-  name: useOpenAI ? "openai" : "openrouter",
-  baseURL: useOpenAI ? "https://api.openai.com/v1" : "https://openrouter.ai/api/v1",
-  apiKey: (useOpenAI ? process.env.OPENAI_API_KEY : process.env.OPENROUTER_API_KEY) ?? "",
-});
-const modelSlug = useOpenAI
-  ? process.env.OPENAI_MODEL ?? "gpt-5-nano"
-  : process.env.OPENROUTER_MODEL ?? "openai/gpt-5-nano";
+// Provider precedence lives in the pure, unit-tested selectModelConfig (see
+// agent/lib/model.ts): OpenAI is used only when BOTH OPENAI_API_KEY and
+// OPENAI_MODEL are set; otherwise it falls back to OpenRouter. Construction is
+// lazy (apiKey may be "") so a missing key never throws at module load — the
+// provider surfaces the error at call time instead.
+const { provider: providerName, baseURL, apiKey, modelSlug } = selectModelConfig(process.env);
+const provider = createOpenAICompatible({ name: providerName, baseURL, apiKey });
 
 export default defineAgent({
   // Pass the LanguageModel directly so Eve uses it as an external model,

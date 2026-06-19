@@ -5,14 +5,14 @@
 #
 # Requires: docker, curl, jq.
 # Override the container/port if your Compose project names them differently:
-#   EVE_AGENT=<agent-container>  EVE_CRON=<cron-container>  EVE_PORT=3000
+#   EVE_AGENT=<agent-container>  EVE_PORT=3000
 #
 # Quick start:
 #   eve_digest                       # trigger the daily digest, show a readable trace
 #   eve_ask "Summarize CI only."     # send any message, show a readable trace
 #   eve_trace --run "..." > t.ndjson # capture raw trace NDJSON to a file
 #   eve_trace <sessionId> | eve_pretty
-#   eve_sessions                     # recent session ids the cron started
+#   eve_sessions                     # recent session ids from the agent's logs
 #   eve_tokens t.ndjson              # token usage for a captured trace
 #   eve_logs [N]                     # tail the readable session log (default 200 lines)
 #   eve_logf                         # follow the readable session log live
@@ -20,7 +20,6 @@
 #   eve_logjson | eve_pretty         # today's structured events, pretty-printed
 
 EVE_AGENT="${EVE_AGENT:-eve-agent-agent-1}"
-EVE_CRON="${EVE_CRON:-eve-agent-digest-cron-1}"
 EVE_PORT="${EVE_PORT:-3000}"
 # Where the session logger writes inside the agent container (matches EVE_LOG_DIR).
 EVE_LOG_DIR="${EVE_LOG_DIR:-/app/logs}"
@@ -67,10 +66,14 @@ eve_ask() { eve_trace --run "$1" | eve_pretty; }
 # Trigger the daily digest and show the trace.
 eve_digest() { eve_ask "Run the daily PR & CI digest now per your instructions."; }
 
-# Recent session ids the cron started (default 5).
+# Recent distinct session ids from the agent's persisted logs (default 5).
+# Reads the sessionId-stamped .ndjson sink (the Coolify Scheduled Task triggers
+# runs in-container, so there's no separate cron container to read logs from).
 #   eve_sessions [N]
 eve_sessions() {
-  docker logs "$EVE_CRON" 2>/dev/null | grep -o '"sessionId":"[^"]*"' | cut -d'"' -f4 | tail -"${1:-5}"
+  docker exec "$EVE_AGENT" sh -c \
+    "cat \"$EVE_LOG_DIR\"/sessions-*.ndjson 2>/dev/null" \
+    | grep -o '"sessionId":"[^"]*"' | cut -d'"' -f4 | awk '!seen[$0]++' | tail -"${1:-5}"
 }
 
 # Token usage summary for a trace (file arg or stdin).

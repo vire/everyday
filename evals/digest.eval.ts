@@ -61,8 +61,10 @@ export default defineEval({
     // 4. Digest contains PR review-state labels (or a data-unavailable note).
     t.messageIncludes(/Approved:|data unavailable/i);
 
-    // 5. Digest contains at least one CI workflow reference (or a data-unavailable note).
-    t.messageIncludes(/pass rate|data unavailable/i);
+    // 5. Digest contains the CI health section / table (or a data-unavailable note).
+    //    CI health renders as a fixed-width table with a "Pass" column, so match
+    //    the section header or the column header rather than the old "pass rate" prose.
+    t.messageIncludes(/CI health|Pass|pass rate|no runs in window|data unavailable/i);
 
     // 6. No tool action returned an unhandled error that broke the run.
     t.noFailedActions();

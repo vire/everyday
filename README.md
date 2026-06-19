@@ -1,6 +1,6 @@
 # Eve PR & CI Digest Agent
 
-An [Eve](https://vercel.com/docs/ai/eve) agent that posts a daily GitHub repository digest to Slack. It classifies code contributions, summarises open pull requests by review state, reports CI workflow health, proposes repo-improvement suggestions, and accumulates baselines across runs in a private GitHub Gist.
+An [Eve](https://vercel.com/docs/ai/eve) agent that posts a daily digest for one or more GitHub repositories to Slack. It classifies code contributions, summarises open pull requests by review state, reports CI workflow health, proposes repo-improvement suggestions, and accumulates baselines across runs in a private GitHub Gist (one per repo). Configure the repos as a comma-delimited list in `TARGET_REPO`.
 
 ---
 
@@ -55,7 +55,7 @@ eve-agent/
 - `lib/` contains all pure logic with no side-effects — tested with Vitest, no network required.
 - Eve tools in `agent/tools/` are thin wrappers that call `lib/` for computation and `gh`/`curl` for I/O.
 - The model is loaded via `@ai-sdk/openai-compatible` pointed at `openrouter.ai`, bypassing the Vercel AI Gateway catalog. Any OpenRouter model slug works.
-- Memory lives in a private Gist (not a database) — portable and auditable.
+- Memory lives in a private Gist per repo (not a database) — portable and auditable.
 - The daily trigger is a **Coolify Scheduled Task** that runs `scripts/trigger-digest.sh` inside the agent container on a cron cadence — no sidecar or external cron daemon, just the single `eve start` server container.
 
 ---
@@ -83,7 +83,7 @@ cp .env.example .env
 
 | Variable | Required | Description |
 |---|---|---|
-| `TARGET_REPO` | Yes | `owner/name` of the GitHub repository to digest |
+| `TARGET_REPO` | Yes | Comma-delimited `owner/name` list of repos to digest (e.g. `octocat/hello-world,acme/widgets`). A single value works unchanged; each repo gets its own digest section and memory gist. |
 | `GITHUB_LOGIN` | No | Your GitHub login for contribution attribution; defaults to `gh api user` |
 | `GH_TOKEN` | Yes | Personal Access Token with `repo` + `gist` scopes |
 | `OPENAI_API_KEY` | Provider | Your OpenAI key (`sk-...`). Used **only when `OPENAI_MODEL` is also set** — then the agent talks to OpenAI directly. |

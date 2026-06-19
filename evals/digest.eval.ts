@@ -6,8 +6,10 @@ import { defineEval } from "eve/evals";
  *
  * This eval requires a running `eve dev` target (started automatically by the
  * runner) and a valid OPENROUTER_API_KEY. It does NOT call live GitHub or
- * Slack; the tools shell out to `gh` and `curl`, so run it against a
- * repository you have access to or stub the env vars.
+ * Slack; the tools shell out to `gh` and `curl`, so run it against
+ * repositories you have access to or stub the env vars. Each data tool is
+ * called once and covers every repo in `TARGET_REPO` (comma-delimited), so the
+ * tool-call assertions below are unchanged whether one or many repos are set.
  *
  * Assertions:
  *   1. The schedule dispatches and produces exactly one session.

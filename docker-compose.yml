@@ -8,7 +8,7 @@
 # See scripts/trigger-digest.sh and docs/superpowers/notes/running-in-production.md.
 #
 # Set these env vars in Coolify (do NOT commit real secrets):
-#   TARGET_REPO        owner/name of the repo to digest
+#   TARGET_REPO        comma-delimited owner/name list (one or more repos to digest)
 #   GH_TOKEN           GitHub PAT, scopes: repo + gist  (gh CLI authenticates from this)
 #   GITHUB_LOGIN       optional; defaults to the gh-authenticated user
 #   Model provider — OpenAI takes preference, but ONLY when BOTH of its vars are set:
@@ -18,7 +18,9 @@
 #   OPENROUTER_MODEL   OpenRouter slug (default openai/gpt-5-nano; codex slugs reject our tool schemas)
 #   SLACK_BOT_TOKEN    Slack bot token (xoxb-...)
 #   SLACK_CHANNEL_ID   target channel id (e.g. C09HDQ4K1TQ); bot must be invited to it
-#   MEMORY_GIST_ID     optional; the private gist holding memory.md
+#   MEMORY_GIST_ID     optional; single-repo only — names the gist holding memory.md.
+#                      Ignored when TARGET_REPO lists multiple repos (each repo's
+#                      gist is matched/created by description instead).
 #   AGENT_BASIC_USER   trigger auth username (the scheduled task sends it). If unset, the
 #   AGENT_BASIC_PASS   session endpoint is OPEN — only safe if port 3000 is not
 #                      published publicly. Set both to require HTTP Basic.

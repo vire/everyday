@@ -63,7 +63,7 @@ Set these in your `.env` file (or system environment):
 
 | Variable | Description |
 |---|---|
-| `TARGET_REPO` | `owner/name` of the GitHub repository to digest |
+| `TARGET_REPO` | Comma-delimited `owner/name` list of repos to digest (one or more; each gets its own digest section + memory gist) |
 | `GITHUB_LOGIN` | Optional — GitHub login for contribution attribution |
 | `GH_TOKEN` | PAT with `repo` + `gist` scopes |
 | `OPENAI_API_KEY` | Your own OpenAI key (`sk-...`). Used only **together with** `OPENAI_MODEL` — then the agent talks to OpenAI directly. |

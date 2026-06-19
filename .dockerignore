@@ -6,4 +6,5 @@ node_modules
 .env.*
 docs
 *.log
+logs/
 .git/sdd

@@ -34,6 +34,9 @@ RUN apt-get update \
 RUN corepack enable
 # copy the installed + built app from the build stage
 COPY --from=build /app /app
+# Session logger writes here (see agent/hooks/session-logger.ts). docker-compose
+# mounts the eve-logs volume over this path; create it so logs work even unmounted.
+RUN mkdir -p /app/logs
 EXPOSE 3000
 # Serve the built application in production mode.
 CMD ["pnpm", "eve", "start", "--host", "0.0.0.0", "--port", "3000"]

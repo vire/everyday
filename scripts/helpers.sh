@@ -14,10 +14,16 @@
 #   eve_trace <sessionId> | eve_pretty
 #   eve_sessions                     # recent session ids the cron started
 #   eve_tokens t.ndjson              # token usage for a captured trace
+#   eve_logs [N]                     # tail the readable session log (default 200 lines)
+#   eve_logf                         # follow the readable session log live
+#   eve_errors [N]                   # only failures/rejections across all session logs
+#   eve_logjson | eve_pretty         # today's structured events, pretty-printed
 
 EVE_AGENT="${EVE_AGENT:-eve-agent-agent-1}"
 EVE_CRON="${EVE_CRON:-eve-agent-digest-cron-1}"
 EVE_PORT="${EVE_PORT:-3000}"
+# Where the session logger writes inside the agent container (matches EVE_LOG_DIR).
+EVE_LOG_DIR="${EVE_LOG_DIR:-/app/logs}"
 
 # Send a message to the agent; prints the sessionId.
 #   sid=$(eve_send "Run the daily digest now.")
@@ -73,4 +79,39 @@ eve_tokens() {
   { if [ -n "$1" ]; then cat "$1"; else cat; fi; } | grep '^{' | jq -s '
     map(select(.type=="step.completed").data.usage) |
     {input_tokens:(map(.inputTokens)|add), output_tokens:(map(.outputTokens)|add), cache_read:(map(.cacheReadTokens)|add)}'
+}
+
+# ── Session log inspection (the persisted files written by the logger hook) ──
+# These read the date-stamped files the agent writes to $EVE_LOG_DIR (default
+# /app/logs, persisted on the eve-logs volume). They survive container restarts,
+# unlike the live HTTP stream — use these to look back at past sessions.
+
+# Tail the readable, one-line-per-event session log for today (default 200 lines).
+#   eve_logs [N]
+eve_logs() {
+  docker exec "$EVE_AGENT" sh -c \
+    "tail -n ${1:-200} \"$EVE_LOG_DIR\"/sessions-\$(date -u +%F).log 2>/dev/null" \
+    || echo "eve_logs: no log for today yet (try eve_errors to scan all days)" >&2
+}
+
+# Follow the readable session log live (Ctrl-C to stop).
+eve_logf() {
+  docker exec "$EVE_AGENT" sh -c \
+    "tail -n 50 -F \"$EVE_LOG_DIR\"/sessions-\$(date -u +%F).log 2>/dev/null"
+}
+
+# Surface only abnormalities — failed/rejected events — across ALL session logs.
+#   eve_errors [N]   (default last 100 matches)
+eve_errors() {
+  docker exec "$EVE_AGENT" sh -c \
+    "grep -hE '🛑|❌|🚫|session.failed|turn .* failed|step .* failed' \"$EVE_LOG_DIR\"/sessions-*.log 2>/dev/null | tail -n ${1:-100}" \
+    || echo "eve_errors: no session logs found in $EVE_LOG_DIR" >&2
+}
+
+# Today's structured events on stdout — pipe to eve_pretty / eve_tokens.
+#   eve_logjson | eve_pretty
+#   eve_logjson | eve_tokens
+eve_logjson() {
+  docker exec "$EVE_AGENT" sh -c \
+    "cat \"$EVE_LOG_DIR\"/sessions-\$(date -u +%F).ndjson 2>/dev/null"
 }

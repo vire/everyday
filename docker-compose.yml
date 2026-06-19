@@ -16,6 +16,13 @@
 #   AGENT_BASIC_USER   trigger auth username (cron sends it). If unset, the
 #   AGENT_BASIC_PASS   session endpoint is OPEN — only safe if port 3000 is not
 #                      published publicly. Set both to require HTTP Basic.
+#   EVE_LOG_DIR        optional; where the session logger writes (default
+#                      /app/logs, persisted on the eve-logs volume below).
+#
+# Inspecting sessions: readable per-event traces stream to the agent container's
+# stdout (visible in Coolify's log viewer) and are written to date-stamped files
+# on the eve-logs volume. See scripts/helpers.sh (eve_logs / eve_logf / eve_errors)
+# and docs/superpowers/notes/running-in-production.md.
 
 services:
   agent:
@@ -36,6 +43,12 @@ services:
       MEMORY_GIST_ID: ${MEMORY_GIST_ID:-}
       AGENT_BASIC_USER: ${AGENT_BASIC_USER:-}
       AGENT_BASIC_PASS: ${AGENT_BASIC_PASS:-}
+      EVE_LOG_DIR: ${EVE_LOG_DIR:-/app/logs}
+    # Persist session logs across restarts/redeploys so they stay inspectable.
+    # In Coolify you can also add this as a Persistent Storage mount, or swap the
+    # named volume for a bind mount (e.g. ./logs:/app/logs) to browse from the host.
+    volumes:
+      - eve-logs:/app/logs
     expose:
       - "3000"
     healthcheck:
@@ -75,3 +88,6 @@ services:
           echo "[digest-cron] sleeping $${DIGEST_INTERVAL}s";
           sleep "$${DIGEST_INTERVAL}";
         done
+
+volumes:
+  eve-logs:

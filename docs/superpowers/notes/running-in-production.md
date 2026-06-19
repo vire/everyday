@@ -58,8 +58,10 @@ Set these in your `.env` file (or system environment):
 | `TARGET_REPO` | `owner/name` of the GitHub repository to digest |
 | `GITHUB_LOGIN` | Optional — GitHub login for contribution attribution |
 | `GH_TOKEN` | PAT with `repo` + `gist` scopes |
-| `OPENROUTER_API_KEY` | OpenRouter API key (`sk-or-...`) |
-| `OPENROUTER_MODEL` | Model slug (default: `openai/gpt-5-codex`) |
+| `OPENAI_API_KEY` | Your own OpenAI key (`sk-...`). When set, the agent talks to OpenAI directly instead of OpenRouter. |
+| `OPENAI_MODEL` | OpenAI model slug (default: `gpt-5-nano`; avoid `*-codex` slugs) |
+| `OPENROUTER_API_KEY` | OpenRouter API key (`sk-or-...`) — used only when `OPENAI_API_KEY` is unset |
+| `OPENROUTER_MODEL` | OpenRouter model slug (default: `openai/gpt-5-nano`; avoid `*-codex` slugs) |
 | `SLACK_BOT_TOKEN` | Slack bot token (`xoxb-...`) with `chat:write` scope |
 | `SLACK_CHANNEL_ID` | Target Slack channel ID (`C0XXXXXXX`) |
 

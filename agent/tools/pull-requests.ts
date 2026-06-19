@@ -35,6 +35,6 @@ export default defineTool({
       updatedAt: p.updatedAt,
       url: p.url,
     }));
-    return { ok: true as const, groups: groupPullRequests(prs) };
+    return { ok: true as const, repo, groups: groupPullRequests(prs) };
   },
 });

@@ -58,6 +58,6 @@ export default defineTool({
         jobsByRunId[run.id] = [];
       }
     });
-    return { ok: true as const, report: aggregateCiHealth(runs, jobsByRunId), failedJobFetches };
+    return { ok: true as const, repo, report: aggregateCiHealth(runs, jobsByRunId), failedJobFetches };
   },
 });

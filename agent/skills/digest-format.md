@@ -4,7 +4,9 @@ Post a single Slack message with this structure:
 
 ---
 
-*PR & CI Digest — `<owner/repo>` — `<YYYY-MM-DD>`*
+*PR & CI Digest — `<repo>` — `<YYYY-MM-DD>`*
+
+`<repo>` is the `repo` field returned by the data tools (`contributions`, `pull-requests`, `ci-health` each return it, e.g. `octocat/hello-world`). Use that exact value. Never emit the literal text `<owner/repo>` or `<repo>` — if every data tool failed and no `repo` was returned, write `unknown repo` instead.
 
 *Contributions (last 24h)*
 - You: `<summary.humanMe>` · You + AI: `<summary.meAiAssist>` · Agents/bots: `<summary.agent>` · Others: `<summary.other>`

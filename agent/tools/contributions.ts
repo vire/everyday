@@ -29,6 +29,6 @@ export default defineTool({
       committerLogin: c.committer?.login ?? null,
       message: c.commit.message,
     }));
-    return { ok: true as const, me, summary: summarizeContributions(commits, me, DEFAULT_AGENT_MARKERS) };
+    return { ok: true as const, repo, me, summary: summarizeContributions(commits, me, DEFAULT_AGENT_MARKERS) };
   },
 });

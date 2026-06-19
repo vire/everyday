@@ -14,7 +14,8 @@ import { defineEval } from "eve/evals";
  * Assertions:
  *   1. The schedule dispatches and produces exactly one session.
  *   2. `read-memory` is called first; all three data tools are called (any order/parallel);
- *      `write-memory` is called; `post-to-slack` is attempted.
+ *      `log-progress` is called (per-repo progress marker); `write-memory` is called;
+ *      `post-to-slack` is attempted.
  *      (strict total-order is not asserted — the data tools may run in parallel)
  *   3. The final message includes the four contribution buckets.
  *   4. The final message includes the five PR review-state labels.
@@ -52,6 +53,7 @@ export default defineEval({
     t.toolCalled("contributions");
     t.toolCalled("pull-requests");
     t.toolCalled("ci-health");
+    t.toolCalled("log-progress"); // per-repo progress marker for production log inspection
     t.toolCalled("write-memory");
     t.toolCalled("post-to-slack");
 

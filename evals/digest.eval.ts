@@ -13,19 +13,21 @@ import { defineEval } from "eve/evals";
  *
  * Assertions:
  *   1. The schedule dispatches and produces exactly one session.
- *   2. `read-memory` is called first; all three data tools are called (any order/parallel);
- *      `log-progress` is called (per-repo progress marker); `write-memory` is called;
- *      `post-to-slack` is attempted.
+ *   2. `read-memory` runs before `write-memory` (it loads the gistId write-memory
+ *      needs); all three data tools are called; `log-progress` is called (per-repo
+ *      progress marker); `write-memory` is called.
  *      (strict total-order is not asserted — the data tools may run in parallel)
- *   3. The final message includes the four contribution buckets.
- *   4. The final message includes the five PR review-state labels.
- *   5. The final message includes at least one CI workflow line.
+ *   3-5. `post-to-slack` is called and its TEXT PAYLOAD carries the real digest —
+ *      the title, the four contribution buckets, the PR review-state labels, and
+ *      the CI section. Assertions target the Slack payload (the tool input), NOT
+ *      the final assistant message: a model can satisfy a message-based check
+ *      while posting a placeholder to Slack, so the payload is the source of truth.
  *   6. The run completes without a terminal failure.
  *
  * If the agent cannot reach GitHub (network offline, no PAT) it should still
- * complete and include "data unavailable" placeholders per its instructions —
- * assertion 6 still passes, assertions 3-5 use a looser regex that accepts
- * the placeholder text.
+ * complete and post a digest with "data unavailable" placeholders per its
+ * instructions — assertion 6 still passes, and assertions 3-5 use a looser regex
+ * that accepts the placeholder text (but still requires a real posted digest).
  */
 export default defineEval({
   description: "Daily digest schedule dispatches and agent completes all 8 steps",
@@ -49,24 +51,30 @@ export default defineEval({
     //    - The three data tools may run in any order or in parallel.
     //    - write-memory must be called (memory is always written, even if Slack fails).
     //    - post-to-slack must be attempted (it may return ok:false without failing the run).
-    t.toolCalledFirst("read-memory");
-    t.toolCalled("contributions");
-    t.toolCalled("pull-requests");
-    t.toolCalled("ci-health");
-    t.toolCalled("log-progress"); // per-repo progress marker for production log inspection
-    t.toolCalled("write-memory");
-    t.toolCalled("post-to-slack");
+    t.calledTool("read-memory");
+    t.toolOrder(["read-memory", "write-memory"]); // read-memory loads the gistId write-memory needs
+    t.calledTool("contributions");
+    t.calledTool("pull-requests");
+    t.calledTool("ci-health");
+    t.calledTool("log-progress"); // per-repo progress marker for production log inspection
+    t.calledTool("write-memory");
 
-    // 3. Digest contains the four contribution buckets (or a data-unavailable note).
-    t.messageIncludes(/You:|data unavailable/i);
+    // post-to-slack must be attempted AND carry the real digest — not a placeholder.
+    // Assert against the Slack PAYLOAD (the tool input), not the final assistant
+    // message: a model can satisfy a message-based check while posting junk to
+    // Slack (the digest belongs in this call, not in the final message).
+    t.calledTool("post-to-slack", { input: { text: /PR & CI Digest/i } });
 
-    // 4. Digest contains PR review-state labels (or a data-unavailable note).
-    t.messageIncludes(/Approved:|data unavailable/i);
+    // 3. Digest payload contains the four contribution buckets (or a data-unavailable note).
+    t.calledTool("post-to-slack", { input: { text: /You:|data unavailable/i } });
 
-    // 5. Digest contains the CI health section / table (or a data-unavailable note).
+    // 4. Digest payload contains PR review-state labels (or a data-unavailable note).
+    t.calledTool("post-to-slack", { input: { text: /Approved:|data unavailable/i } });
+
+    // 5. Digest payload contains the CI health section / table (or a data-unavailable note).
     //    CI health renders as a fixed-width table with a "Pass" column, so match
     //    the section header or the column header rather than the old "pass rate" prose.
-    t.messageIncludes(/CI health|Pass|pass rate|no runs in window|data unavailable/i);
+    t.calledTool("post-to-slack", { input: { text: /CI health|Pass|no runs in window|data unavailable/i } });
 
     // 6. No tool action returned an unhandled error that broke the run.
     t.noFailedActions();

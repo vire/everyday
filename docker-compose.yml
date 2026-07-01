@@ -9,7 +9,9 @@
 #
 # Set these env vars in Coolify (do NOT commit real secrets):
 #   TARGET_REPO        comma-delimited owner/name list (one or more repos to digest)
-#   GH_TOKEN           GitHub PAT, scopes: repo + gist  (gh CLI authenticates from this)
+#   GH_TOKEN           GitHub PAT, scope: repo  (gh CLI authenticates from this).
+#                      Read-only on the target repos is enough; `gist` is no longer
+#                      needed — memory is a local file on the eve-memory volume.
 #   GITHUB_LOGIN       optional; defaults to the gh-authenticated user
 #   Model provider — OpenAI takes preference, but ONLY when BOTH of its vars are set:
 #   OPENAI_API_KEY     OpenAI key (sk-...). With OPENAI_MODEL, the agent talks to OpenAI directly.
@@ -18,14 +20,13 @@
 #   OPENROUTER_MODEL   OpenRouter slug (default openai/gpt-5-nano; codex slugs reject our tool schemas)
 #   SLACK_BOT_TOKEN    Slack bot token (xoxb-...)
 #   SLACK_CHANNEL_ID   target channel id (e.g. C09HDQ4K1TQ); bot must be invited to it
-#   MEMORY_GIST_ID     optional; single-repo only — names the gist holding memory.md.
-#                      Ignored when TARGET_REPO lists multiple repos (each repo's
-#                      gist is matched/created by description instead).
 #   AGENT_BASIC_USER   trigger auth username (the scheduled task sends it). If unset, the
 #   AGENT_BASIC_PASS   session endpoint is OPEN — only safe if port 3000 is not
 #                      published publicly. Set both to require HTTP Basic.
 #   EVE_LOG_DIR        optional; where the session logger writes (default
 #                      /app/logs, persisted on the eve-logs volume below).
+#   EVE_MEMORY_DIR     optional; where per-repo memory-<owner>-<name>.md files live
+#                      (default /app/memory, persisted on the eve-memory volume below).
 #
 # Inspecting sessions: readable per-event traces stream to the agent container's
 # stdout (visible in Coolify's log viewer) and are written to date-stamped files
@@ -50,15 +51,17 @@ services:
       OPENROUTER_MODEL: ${OPENROUTER_MODEL:-openai/gpt-5-nano}
       SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
       SLACK_CHANNEL_ID: ${SLACK_CHANNEL_ID}
-      MEMORY_GIST_ID: ${MEMORY_GIST_ID:-}
       AGENT_BASIC_USER: ${AGENT_BASIC_USER:-}
       AGENT_BASIC_PASS: ${AGENT_BASIC_PASS:-}
       EVE_LOG_DIR: ${EVE_LOG_DIR:-/app/logs}
-    # Persist session logs across restarts/redeploys so they stay inspectable.
-    # In Coolify you can also add this as a Persistent Storage mount, or swap the
-    # named volume for a bind mount (e.g. ./logs:/app/logs) to browse from the host.
+      EVE_MEMORY_DIR: ${EVE_MEMORY_DIR:-/app/memory}
+    # Persist session logs AND memory across restarts/redeploys. Memory (the
+    # per-repo digest baselines/suggestions) MUST survive redeploys, so it lives
+    # on its own named volume. Swap either for a bind mount (e.g. ./memory:/app/memory)
+    # to browse from the host.
     volumes:
       - eve-logs:/app/logs
+      - eve-memory:/app/memory
     expose:
       - "3000"
     healthcheck:
@@ -75,3 +78,4 @@ services:
 
 volumes:
   eve-logs:
+  eve-memory:

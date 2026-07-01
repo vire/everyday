@@ -1,6 +1,6 @@
 # Eve PR & CI Digest Agent
 
-An [Eve](https://vercel.com/docs/ai/eve) agent that posts a daily digest for one or more GitHub repositories to Slack. It classifies code contributions, summarises open pull requests by review state, reports CI workflow health, proposes repo-improvement suggestions, and accumulates baselines across runs in a private GitHub Gist (one per repo). Configure the repos as a comma-delimited list in `TARGET_REPO`.
+An [Eve](https://vercel.com/docs/ai/eve) agent that posts a daily digest for one or more GitHub repositories to Slack. It classifies code contributions, summarises open pull requests by review state, reports CI workflow health, proposes repo-improvement suggestions, and accumulates baselines across runs in a local markdown file per repo (persisted on a Docker volume). Configure the repos as a comma-delimited list in `TARGET_REPO`.
 
 ---
 
@@ -8,13 +8,13 @@ An [Eve](https://vercel.com/docs/ai/eve) agent that posts a daily digest for one
 
 Each morning the agent:
 
-1. **Reads memory** from a private Gist — CI baselines and open improvement suggestions carried over from prior runs.
+1. **Reads memory** from a local file per repo — CI baselines and open improvement suggestions carried over from prior runs.
 2. **Classifies commits** from the past 24 hours into four buckets: authored by you, AI-assisted by you, automated agents/bots, and other contributors.
 3. **Groups open PRs** by review state: approved, changes requested, reviewed (commented), pending review, and draft.
 4. **Reports CI health** per workflow: pass rate over the window, p50 and max durations, slowest job name, flaky-workflow flags, and regression flags when duration exceeds the stored baseline by more than 20%.
 5. **Proposes up to 3 improvements** — specific, evidence-backed suggestions reconciled against the stored list so nothing repeats.
 6. **Posts the digest to Slack** as a single message.
-7. **Updates memory** in the Gist — refreshed CI baselines, updated suggestion statuses, and any new classification notes.
+7. **Updates memory** in the file — refreshed CI baselines, updated suggestion statuses, and any new classification notes.
 
 A "quiet day" (no commits, no PR movement, CI all-green) produces a short note instead of a full digest. If any data source is unavailable the agent continues and marks that section "data unavailable — `<reason>`".
 
@@ -40,7 +40,7 @@ eve-agent/
 │   ├── contributions.ts      # Commit classification
 │   ├── pull-requests.ts      # PR grouping
 │   ├── ci-health.ts          # Workflow aggregation
-│   ├── memory.ts             # Gist helpers (find / parse / serialise)
+│   ├── memory.ts             # memory file path + initial-template helpers
 │   └── gh.ts                 # `gh` CLI wrapper (ghJson / resolveMe)
 ├── evals/
 │   ├── evals.config.ts       # Eval run configuration
@@ -55,7 +55,7 @@ eve-agent/
 - `lib/` contains all pure logic with no side-effects — tested with Vitest, no network required.
 - Eve tools in `agent/tools/` are thin wrappers that call `lib/` for computation and `gh`/`curl` for I/O.
 - The model is loaded via `@ai-sdk/openai-compatible` pointed at `openrouter.ai`, bypassing the Vercel AI Gateway catalog. Any OpenRouter model slug works.
-- Memory lives in a private Gist per repo (not a database) — portable and auditable.
+- Memory lives in a local markdown file per repo on a persistent Docker volume (not a database) — portable, auditable, and survives container restarts / redeploys.
 - The daily trigger is a **Coolify Scheduled Task** that runs `scripts/trigger-digest.sh` inside the agent container on a cron cadence — no sidecar or external cron daemon, just the single `eve start` server container.
 
 ---
@@ -67,7 +67,7 @@ eve-agent/
 | Node 24 | `engines.node: "24.x"` in `package.json` |
 | pnpm | `packageManager: "pnpm@10.33.0"` |
 | `gh` CLI | Must be authenticated; used by every tool |
-| GitHub PAT | Scopes: `repo` (read commits, PRs, CI) + `gist` (read/write memory gist) |
+| GitHub PAT | `repo` scope (read commits, PRs, CI). Fine-grained: **Contents/Pull requests/Actions: Read** on the target repos. No `gist` scope needed — memory is a local file. |
 | OpenRouter API key | Any plan; model catalog at [openrouter.ai/models](https://openrouter.ai/models) |
 | Slack bot token | `chat:write` scope; create at [api.slack.com/apps](https://api.slack.com/apps) |
 
@@ -83,9 +83,9 @@ cp .env.example .env
 
 | Variable | Required | Description |
 |---|---|---|
-| `TARGET_REPO` | Yes | Comma-delimited `owner/name` list of repos to digest (e.g. `octocat/hello-world,acme/widgets`). A single value works unchanged; each repo gets its own digest section and memory gist. |
+| `TARGET_REPO` | Yes | Comma-delimited `owner/name` list of repos to digest (e.g. `octocat/hello-world,acme/widgets`). A single value works unchanged; each repo gets its own digest section and memory file. |
 | `GITHUB_LOGIN` | No | Your GitHub login for contribution attribution; defaults to `gh api user` |
-| `GH_TOKEN` | Yes | Personal Access Token with `repo` + `gist` scopes |
+| `GH_TOKEN` | Yes | Personal Access Token, `repo` scope (read-only on the target repos is enough; no `gist`) |
 | `OPENAI_API_KEY` | Provider | Your OpenAI key (`sk-...`). Used **only when `OPENAI_MODEL` is also set** — then the agent talks to OpenAI directly. |
 | `OPENAI_MODEL` | Provider | OpenAI model slug (e.g. `gpt-5-nano`). Required to select OpenAI; leave empty to stay on OpenRouter. **Avoid `*-codex` slugs.** |
 | `OPENROUTER_API_KEY` | Provider | OpenRouter key (`sk-or-...`). Used unless **both** OpenAI vars above are set. |
@@ -177,8 +177,8 @@ Before the digest will work end to end:
 
 - [ ] Copy `.env.example` to `.env` and fill in the required values.
 - [ ] Pick a provider: set **both** `OPENAI_API_KEY` and `OPENAI_MODEL` to use OpenAI, **or** set `OPENROUTER_API_KEY` (+ optional `OPENROUTER_MODEL`) to use OpenRouter. Confirm the slug exists in that provider's catalog.
-- [ ] Verify `gh auth status` shows the PAT with `repo` and `gist` scopes.
-- [ ] Run `eve dev`, then `sh scripts/trigger-digest.sh` (or the `curl` above) and watch the session stream — confirm the Slack post arrives and the Gist is created/updated.
+- [ ] Verify `gh auth status` shows the PAT with `repo` scope (read on the target repos).
+- [ ] Run `eve dev`, then `sh scripts/trigger-digest.sh` (or the `curl` above) and watch the session stream — confirm the Slack post arrives and the memory file is created/updated.
 - [ ] Start production with `eve start` (the container CMD), then add the Coolify **Scheduled Task** (`sh /app/scripts/trigger-digest.sh` on the `agent` container) with your cron hour.
 - [ ] Optionally raise `modelContextWindowTokens` in `agent/agent.ts` to your model's real context window.
 

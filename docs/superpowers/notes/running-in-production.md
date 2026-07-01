@@ -63,9 +63,10 @@ Set these in your `.env` file (or system environment):
 
 | Variable | Description |
 |---|---|
-| `TARGET_REPO` | Comma-delimited `owner/name` list of repos to digest (one or more; each gets its own digest section + memory gist) |
+| `TARGET_REPO` | Comma-delimited `owner/name` list of repos to digest (one or more; each gets its own digest section + memory file) |
 | `GITHUB_LOGIN` | Optional — GitHub login for contribution attribution |
-| `GH_TOKEN` | PAT with `repo` + `gist` scopes |
+| `GH_TOKEN` | PAT with `repo` scope (read-only on the target repos; no `gist` — memory is a local file) |
+| `EVE_MEMORY_DIR` | Optional — dir for per-repo `memory-<owner>-<name>.md` files (default `/app/memory`, persisted on the eve-memory volume) |
 | `OPENAI_API_KEY` | Your own OpenAI key (`sk-...`). Used only **together with** `OPENAI_MODEL` — then the agent talks to OpenAI directly. |
 | `OPENAI_MODEL` | OpenAI model slug (e.g. `gpt-5-nano`; avoid `*-codex` slugs). **Required** to select OpenAI; leave empty to stay on OpenRouter. |
 | `OPENROUTER_API_KEY` | OpenRouter API key (`sk-or-...`) — used unless **both** OpenAI vars above are set |
